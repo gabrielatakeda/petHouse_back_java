@@ -2,6 +2,7 @@ package com.example.iot.controller;
 
 import com.example.iot.model.CategoriaModel;
 import com.example.iot.service.CategoriaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,7 @@ public class CategoriaController {
 
 
     @PostMapping("/save")
-    public ResponseEntity<CategoriaModel> save(@RequestBody CategoriaModel categoria) {
+    public ResponseEntity<CategoriaModel> save(@RequestBody @Valid CategoriaModel categoria) {
         try {
             var result = categoriaService.save(categoria);
             return new ResponseEntity<>(result, HttpStatus.CREATED);

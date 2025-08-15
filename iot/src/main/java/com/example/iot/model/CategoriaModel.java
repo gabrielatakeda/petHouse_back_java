@@ -1,6 +1,8 @@
 package com.example.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +18,12 @@ public class CategoriaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(unique = true)
     private String nome;
-    //lista de produtos;
+
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "categoria")
+//    List<produto> produtos;
 
 }
