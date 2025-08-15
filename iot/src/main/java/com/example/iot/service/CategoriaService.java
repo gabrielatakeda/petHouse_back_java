@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class CategoriaService {
 
     private final CategoriaRepository categoriaRepository;
