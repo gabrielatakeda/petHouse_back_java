@@ -2,6 +2,7 @@ package com.example.iot.controller;
 
 import com.example.iot.model.PagamentoModel;
 import com.example.iot.service.PagamentoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,32 +19,28 @@ public class PagamentoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PagamentoModel> findById(@PathVariable Long id) {
-        try {
-            var opt = pagamentoService.findById(id);
-            return opt
-                    .map(p -> new ResponseEntity<>(p, HttpStatus.OK))
-                    .orElse(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
-        } catch (Exception ex) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        return pagamentoService.findById(id)
+                .map(p -> ResponseEntity.ok(p))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @GetMapping
     public ResponseEntity<List<PagamentoModel>> findAll() {
-        try {
-            return new ResponseEntity<>(pagamentoService.findAll(), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        List<PagamentoModel> pagamentos = pagamentoService.findAll();
+        if (pagamentos.isEmpty()) {
+            return ResponseEntity.noContent().build();
         }
+        return ResponseEntity.ok(pagamentos);
     }
 
     /* tira esse comentario quando juntar com o PedidoModel
     @PostMapping
-    public ResponseEntity<PagamentoModel> save(@RequestBody PagamentoModel pagamento) {
+    public ResponseEntity<PagamentoModel> save(@Valid @RequestBody PagamentoModel pagamento) {
         try {
-            return new ResponseEntity<>(pagamentoService.save(pagamento), HttpStatus.OK);
+            PagamentoModel salvo = pagamentoService.save(pagamento);
+            return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
         } catch (Exception ex) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
     }
     */
@@ -52,9 +49,9 @@ public class PagamentoController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         try {
             pagamentoService.deleteById(id);
-            return new ResponseEntity<>(null, HttpStatus.OK);
+            return ResponseEntity.noContent().build();
         } catch (Exception ex) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
     }
 }
