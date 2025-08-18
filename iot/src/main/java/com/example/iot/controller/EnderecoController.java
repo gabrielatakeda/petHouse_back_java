@@ -20,7 +20,7 @@ public class EnderecoController {
     private final EnderecoService enderecoService;
 
     @PostMapping("/save")
-    public ResponseEntity<EnderecoModel> save(@RequestBody EnderecoModel enderecoModel) {
+    public ResponseEntity<EnderecoModel> save(@RequestBody @Valid EnderecoModel enderecoModel) {
         try {
             var result = enderecoService.save(enderecoModel);
             return new ResponseEntity<>(result, HttpStatus.OK);

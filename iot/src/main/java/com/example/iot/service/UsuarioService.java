@@ -34,6 +34,8 @@ public class UsuarioService {
         usuarioUpdate.setNome(usuarioModel.getNome());
         usuarioUpdate.setSenha(usuarioModel.getSenha());
         usuarioUpdate.setUsuario(usuarioModel.getUsuario());
+        usuarioUpdate.setEnderecos(usuarioModel.getEnderecos());
+
 
         return usuarioRepository.save(usuarioUpdate);
     }

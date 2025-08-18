@@ -21,7 +21,7 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     @PostMapping("/save")
-    public ResponseEntity<UsuarioModel> save(@RequestBody UsuarioModel usuarioModel) {
+    public ResponseEntity<UsuarioModel> save(@RequestBody @Valid UsuarioModel usuarioModel) {
         try {
             var result = usuarioService.save(usuarioModel);
             return new ResponseEntity<>(result, HttpStatus.OK);
