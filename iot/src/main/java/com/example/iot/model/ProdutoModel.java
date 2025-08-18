@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity //Marca como uma entidade no banco de dados
 @Table(name = "produto_tabela") //Marca com esse nome entre os parênteses no banco
 @Getter //Gera automaticamente
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class ProdutoModel {
     //Atributos
@@ -31,5 +31,5 @@ public class ProdutoModel {
     private Integer quantidade;
 
     @ManyToOne
-    private Categoria categoria;
+    private CategoriaModel categoria;
 }

@@ -41,7 +41,7 @@ public class UsuarioModel {
     @NotBlank(message = "Campo obrigatorio")
     private String usuario;
 
-    @OneToMany(mappedBy = "usuario_tb", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     @Valid
     private List<EnderecoModel> enderecos;
 

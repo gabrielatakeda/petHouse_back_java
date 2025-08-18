@@ -23,11 +23,13 @@ public class PagamentoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /* tira esse comentario quando juntar com o PedidoModel
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pedido_id", nullable = false)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "pedido_id", nullable = false)
+//    private PedidoModel pedido;
+
+    @OneToOne
+    @JoinColumn(name = "pedido_id", unique = true)
     private PedidoModel pedido;
-    */
 
     @NotNull
     @Column(nullable = false, precision = 10, scale = 2)

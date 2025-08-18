@@ -38,7 +38,7 @@ public class EnderecoModel {
     //no caso ele so vai receber os 8 numeros presentes no CEP, sem o caracter especial
     private String cep;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "usuario_id")
     private UsuarioModel usuario;
 

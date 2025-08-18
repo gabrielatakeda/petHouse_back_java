@@ -34,15 +34,17 @@ public class PedidoModel {
     @NotBlank(message = "Campo obrigatorio")
     private Double total;
 
-    /*
-    @OneToMany(mappedBy = "pedido_tb", cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "pedido_tb", cascade = CascadeType.ALL)
+//    private PagamentoModel pagamento;
+
+    @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
     private PagamentoModel pagamento;
-    */
 
-    @OneToMany(mappedBy = "pedido_tb", cascade = CascadeType.ALL)
-    private List<ItemPedido> itens = new ArrayList<>();
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    private List<ItemPedido> itens;
 
-    @OneToMany(mappedBy = "pedido_tb", cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "endereco_id")
     private EnderecoModel endereco;
 
     @Enumerated(EnumType.STRING)
