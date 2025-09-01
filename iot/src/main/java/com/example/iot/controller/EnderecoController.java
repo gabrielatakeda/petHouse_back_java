@@ -23,7 +23,7 @@ public class EnderecoController {
     public ResponseEntity<EnderecoModel> save(@RequestBody @Valid EnderecoModel enderecoModel) {
         try {
             var result = enderecoService.save(enderecoModel);
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

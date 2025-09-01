@@ -25,7 +25,7 @@ public class ItemPedidoController {
     public ResponseEntity<ItemPedido> save(@RequestBody @Valid ItemPedido itemPedido) {
         try {
             var result = itemPedidoService.save(itemPedido);
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

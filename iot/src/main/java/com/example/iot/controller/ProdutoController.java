@@ -47,7 +47,7 @@ public class ProdutoController {
     @PostMapping("/save")
     public ResponseEntity<ProdutoModel> save(@RequestBody @Valid ProdutoModel produto){
         try {
-            return new ResponseEntity<>(produtoService.save(produto), HttpStatus.OK);
+            return new ResponseEntity<>(produtoService.save(produto), HttpStatus.CREATED);
         } catch (Exception ex){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

@@ -24,7 +24,7 @@ public class UsuarioController {
     public ResponseEntity<UsuarioModel> save(@RequestBody @Valid UsuarioModel usuarioModel) {
         try {
             var result = usuarioService.save(usuarioModel);
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

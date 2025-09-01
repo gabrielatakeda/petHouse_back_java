@@ -22,7 +22,7 @@ public class PedidoController {
     public ResponseEntity<PedidoModel> save(@RequestBody @Valid PedidoModel pedidoModel) {
         try {
             var result = pedidoService.save(pedidoModel);
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
