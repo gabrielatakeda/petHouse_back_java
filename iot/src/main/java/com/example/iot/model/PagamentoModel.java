@@ -2,6 +2,7 @@ package com.example.iot.model;
 
 import com.example.iot.enums.MetodoPagamento;
 import com.example.iot.enums.StatusPagamento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class PagamentoModel {
 
     @OneToOne
     @JoinColumn(name = "pedido_id", unique = true)
+    @JsonBackReference
     private PedidoModel pedido;
 
     @NotNull

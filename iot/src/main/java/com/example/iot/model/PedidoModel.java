@@ -1,6 +1,7 @@
 package com.example.iot.model;
 
 import com.example.iot.enums.StatusPedido;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,16 +32,18 @@ public class PedidoModel {
     @NotNull(message = "Campo obrigatorio")
     private LocalDateTime dataPedido;
 
-    @NotBlank(message = "Campo obrigatorio")
+    @NotNull(message = "Campo obrigatorio")
     private Double total;
 
 //    @OneToMany(mappedBy = "pedido_tb", cascade = CascadeType.ALL)
 //    private PagamentoModel pagamento;
 
     @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private PagamentoModel pagamento;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<ItemPedido> itens;
 
     @ManyToOne

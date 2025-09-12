@@ -40,8 +40,8 @@ public class CategoriaController {
         }
     }
 
-    @GetMapping("/nome")
-    public ResponseEntity<Optional<CategoriaModel>> findByNome(@RequestParam String nome) {
+    @GetMapping("/findByNome/{nome}")
+    public ResponseEntity<Optional<CategoriaModel>> findByNome(@PathVariable String nome) {
         try {
             var result = categoriaService.findByNome(nome);
             return new ResponseEntity<>(result, HttpStatus.OK);

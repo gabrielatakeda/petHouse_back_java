@@ -28,6 +28,7 @@ public class ProdutoModel {
     private String descricao;
 
     private Double precoVenda;
+
     private Integer quantidade;
 
     @ManyToOne
