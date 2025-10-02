@@ -1,6 +1,7 @@
 package com.example.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -55,6 +56,7 @@ public class UsuarioModel {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     @Valid
+    @JsonManagedReference
     private List<EnderecoModel> enderecos;
 
 
