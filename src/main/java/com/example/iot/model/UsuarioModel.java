@@ -1,15 +1,15 @@
 package com.example.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -39,11 +39,23 @@ public class UsuarioModel {
     private String senha;
 
     @NotBlank(message = "Campo obrigatorio")
-    private String usuario;
+    private String user;
 
-//    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-//    @Valid
-//    private List<EnderecoModel> enderecos;
+    @NotBlank(message = "Campo obrigatorio")
+    @Pattern(
+            regexp = "^(?:\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}|\\d{11})$",
+            message = "CPF deve estar no formato 000.000.000-00 ou 00000000000"
+    )
+    private String CPF;
+
+    @NotBlank(message = "Campo obrigatorio")
+    @Past(message = "Data de nascimento deve ser no passado")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate dataNascimento;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @Valid
+    private List<EnderecoModel> enderecos;
 
 
 

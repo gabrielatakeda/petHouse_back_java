@@ -28,4 +28,13 @@ public class CategoriaModel {
     @OneToMany(mappedBy = "categoria")
     private List<ProdutoModel> produtos;
 
+    // Categoria pai (self join)
+    @ManyToOne
+    @JoinColumn(name = "categoria_pai_id")
+    private CategoriaModel categoriaPai;
+
+    // Lista de subcategorias
+    @OneToMany(mappedBy = "categoriaPai", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CategoriaModel> subcategorias;
+
 }
