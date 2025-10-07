@@ -46,9 +46,9 @@ public class UsuarioModel {
             regexp = "^(?:\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}|\\d{11})$",
             message = "CPF deve estar no formato 000.000.000-00 ou 00000000000"
     )
-    private String CPF;
+    private String cpf;
 
-    @NotBlank(message = "Campo obrigatorio")
+    @NotNull(message = "Campo obrigatorio")
     @Past(message = "Data de nascimento deve ser no passado")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
