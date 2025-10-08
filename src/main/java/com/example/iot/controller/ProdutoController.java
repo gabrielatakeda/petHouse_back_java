@@ -1,6 +1,6 @@
 package com.example.iot.controller;
 
-import com.example.iot.bucket.BucketFile; //Encapsula os dados do arquivo a ser enviado ao MinIO
+import com.example.iot.bucket.BucketFile;
 import com.example.iot.model.ProdutoModel;
 import com.example.iot.service.ProdutoService;
 import lombok.RequiredArgsConstructor;
@@ -8,13 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile; //Usado para receber o arquivo no endpoint
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/produtos")
+@RequestMapping("/produtos")
 @RequiredArgsConstructor
 public class ProdutoController {
     private final ProdutoService produtoService;
@@ -56,10 +56,8 @@ public class ProdutoController {
             var bucketFile = new BucketFile(file.getName(), is, type, file.getSize()); /*Cria um objeto de transporte com os dados do arquivo (nome, tamanho, conteúdo, tipo),
             esse objeto é passado para o ProdutoService, que vai fazer o upload para o MinIO usando essas informações, depois do upload, o service gera uma url de acesso ao arquivo*/
 
-            //Recebe os dados do produto (texto) e o arquivo (imagem), envia o arquivo para o MinIo, salva os dados no banco de dados com o link da imagem e retorna o produto completo salvo
             ProdutoModel saved = produtoService.save(produto, bucketFile);
 
-            //Envia de volta para quem chamou a API, os dados do produto recém-criado junto com o status CREATED
             return new ResponseEntity<>(saved, HttpStatus.CREATED);
 
         } catch (Exception ex){ //Captura qualquer exceção que possa ocorrer dentro do try acima

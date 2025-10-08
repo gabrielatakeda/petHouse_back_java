@@ -1,13 +1,14 @@
 package com.example.iot.service;
 
-import com.example.iot.bucket.BucketFile; //Representa o arquivo que será enviado para o bucket/armazenamento.
-import com.example.iot.bucket.BucketService; //Importa o serviço que faz upload/downlaod em um bucket
+import com.example.iot.bucket.BucketFile;
+import com.example.iot.bucket.BucketService;
 import com.example.iot.model.ProdutoModel;
 import com.example.iot.repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service //Marca como service, camada de serviço

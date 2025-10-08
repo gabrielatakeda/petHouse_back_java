@@ -1,6 +1,5 @@
 package com.example.iot.service;
 
-import com.example.iot.model.EnderecoModel;
 import com.example.iot.model.PedidoModel;
 import com.example.iot.repository.PedidoRepository;
 import lombok.RequiredArgsConstructor;

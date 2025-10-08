@@ -1,9 +1,9 @@
 package com.example.iot.configuration;
 
-import io.minio.MinioClient; //Importa o MinioClient, que é a classe usada para se conectar ao servidor MinIO (armazenamento de arquivos)
-import org.springframework.beans.factory.annotation.Autowired; //Diz para o Spring injetar (preencher) automaticamente o valor de um campo
-import org.springframework.context.annotation.Bean; //Esse metodo cria algo que você deve guardar e disponibilizar para o resto da aplicação, no caso o Spring faz
-import org.springframework.context.annotation.Configuration; //Essa classe tem metodos que criam beans (objetos que o Spring vai gerenciar)
+import io.minio.MinioClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration //O Spring vai olhar essa classe quando a aplicação inicia e registrar os beans que ela criar
 public class BucketConfig {

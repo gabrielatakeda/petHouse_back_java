@@ -3,7 +3,6 @@ package com.example.iot.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jdk.jfr.Unsigned;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,8 +1,8 @@
 package com.example.iot.bucket;
 
-import org.springframework.http.MediaType; //É uma classe do Spring para representar o tipo do arquivo (PNG, JPEG etc)
+import org.springframework.http.MediaType;
 
-import java.io.InputStream; //É uma forma de ler os bytes do arquivo
+import java.io.InputStream;
 
 //Record serve para representar dados imutáveis de forma bem curta, sem precisar criar uma classe cheia de getters e construtores
 public record BucketFile(String name, InputStream is, MediaType type, Long size) {

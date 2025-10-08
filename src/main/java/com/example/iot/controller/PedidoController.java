@@ -1,7 +1,6 @@
 package com.example.iot.controller;
 
 import com.example.iot.model.PedidoModel;
-import com.example.iot.model.UsuarioModel;
 import com.example.iot.service.PedidoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

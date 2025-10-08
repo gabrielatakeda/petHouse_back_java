@@ -1,7 +1,6 @@
 package com.example.iot.service;
 
 import com.example.iot.model.ItemPedido;
-import com.example.iot.model.PedidoModel;
 import com.example.iot.repository.ItemPedidoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

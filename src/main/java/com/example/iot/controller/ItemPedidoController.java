@@ -1,14 +1,11 @@
 package com.example.iot.controller;
 
 import com.example.iot.model.ItemPedido;
-import com.example.iot.model.UsuarioModel;
 import com.example.iot.service.ItemPedidoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -5,18 +5,21 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-@Entity //Marca como uma entidade no banco de dados
-@Table(name = "produto_tabela") //Marca com esse nome entre os parênteses no banco
-@Getter //Gera automaticamente
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "produto_tabela")
+@Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 public class ProdutoModel {
-    //Atributos
-    @Id //marca como chave primária
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //Gera automaticamente o valor do id
-    @Column(name = "id_produto") //Marca a coluna com esse nome
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_produto")
     private Long id;
 
     @NotBlank(message = "O nome deve ser valido")
@@ -29,7 +32,10 @@ public class ProdutoModel {
     private Double precoVenda;
     private Integer quantidade;
 
-    private String urlFoto; //Atributo que armazena a imagem do produto, é apenas o link
+    private String urlFoto;
+
+    @ManyToMany(mappedBy = "produtos")
+    private Set<PedidoModel> pedidos = new HashSet<>();
 
     @ManyToOne
     private CategoriaModel categoria;

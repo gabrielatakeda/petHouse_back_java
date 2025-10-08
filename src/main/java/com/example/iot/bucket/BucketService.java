@@ -1,10 +1,10 @@
 package com.example.iot.bucket;
 
-import com.example.iot.configuration.MinioProps; //Para pegar as configs do MinIO (URL, bucket, etc)
-import io.minio.MinioClient; //Usado para enviar arquivos para o MinIO
-import io.minio.PutObjectArgs; //Usado para enviar arquivos para o MinIO
+import com.example.iot.configuration.MinioProps;
+import io.minio.MinioClient;
+import io.minio.PutObjectArgs;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType; //Para validar o tipo de arquivo (PNG/JPEG)
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;

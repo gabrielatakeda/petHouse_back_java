@@ -1,6 +1,7 @@
 package com.example.iot.model;
 
 import com.example.iot.enums.MetodoPagamento;
+import com.example.iot.enums.Role;
 import com.example.iot.enums.StatusPagamento;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -23,10 +25,6 @@ public class PagamentoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "pedido_id", nullable = false)
-//    private PedidoModel pedido;
-
     @OneToOne
     @JoinColumn(name = "pedido_id", unique = true)
     private PedidoModel pedido;
@@ -34,6 +32,8 @@ public class PagamentoModel {
     @NotNull
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal valor = BigDecimal.ZERO;
+
+
 
     @NotNull
     @Enumerated(EnumType.STRING)

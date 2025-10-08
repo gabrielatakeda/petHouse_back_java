@@ -1,8 +1,8 @@
 package com.example.iot.configuration;
 
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties; //Essa classe vai representar configurações vindas do application.properties
-import org.springframework.boot.context.properties.EnableConfigurationProperties; //O Spring lê os valores do arquivo de configuração e injeta nesta classe
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
