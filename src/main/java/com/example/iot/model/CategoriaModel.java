@@ -28,6 +28,8 @@ public class CategoriaModel {
     @OneToMany(mappedBy = "categoria")
     private List<ProdutoModel> produtos;
 
+
+    //talvez eu nao precise disso
     // Categoria pai (self join)
     @ManyToOne
     @JoinColumn(name = "categoria_pai_id")

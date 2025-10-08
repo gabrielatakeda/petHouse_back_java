@@ -1,5 +1,6 @@
 package com.example.iot.model;
 
+import com.example.iot.enums.StatusPedido;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -30,21 +33,23 @@ public class PedidoModel {
     @NotBlank(message = "Campo obrigatorio")
     private Double total;
 
-//    @OneToMany(mappedBy = "pedido_tb", cascade = CascadeType.ALL)
-//    private PagamentoModel pagamento;
-
     @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
     private PagamentoModel pagamento;
 
-
+    @ManyToMany
+    @JoinTable(
+            name = "pedido_produto",
+            joinColumns = @JoinColumn(name = "pedido_id"),
+            inverseJoinColumns = @JoinColumn(name = "produto_id")
+    )
+    private Set<ProdutoModel> produtos = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "endereco_id")
     private EnderecoModel endereco;
 
-//    @Enumerated(EnumType.STRING)
-//    @NotNull(message = "Campo obrigatorio")
-//    private StatusPedido statusPedido;
+    @Enumerated(EnumType.STRING)
+    private StatusPedido statusPedido;
 
 
 }

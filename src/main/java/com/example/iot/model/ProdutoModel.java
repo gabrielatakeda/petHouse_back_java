@@ -35,7 +35,7 @@ public class ProdutoModel {
     private String urlFoto;
 
     @ManyToMany(mappedBy = "produtos")
-    private Set<PedidoModel> pedidos = new HashSet<>();
+    private Set<PedidoModel> itensPedidos = new HashSet<>();
 
     @ManyToOne
     private CategoriaModel categoria;

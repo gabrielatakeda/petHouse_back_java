@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,30 +30,27 @@ public class PagamentoModel {
     @JoinColumn(name = "pedido_id", unique = true)
     private PedidoModel pedido;
 
-    @NotNull
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal valor = BigDecimal.ZERO;
+//    @NotNull
+//    @Column(nullable = false, precision = 10, scale = 2)
+//    private BigDecimal valor = BigDecimal.ZERO;
 
-
-
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
     private MetodoPagamento metodoPagamento;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private StatusPagamento status;
+    private StatusPagamento statusPagamento;
 
     @Column(nullable = false)
-    private LocalDateTime dataPagamento;
+    private LocalDate dataPagamento;
 
-    @Column(unique = true)
-    private String transacaoId;
+//    @Column(unique = true)
+//    private String transacaoId;
 
     @PrePersist
     public void prePersist() {
-        this.dataPagamento = LocalDateTime.now();
+        this.dataPagamento = LocalDate.now();
+        if(this.statusPagamento == null) {
+            this.statusPagamento = statusPagamento.PENDENTE;
+        }
     }
 }
