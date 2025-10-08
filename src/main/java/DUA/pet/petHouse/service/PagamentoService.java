@@ -14,14 +14,6 @@ public class PagamentoService {
 
     private final PagamentoRepository pagamentoRepository;
 
-    /* tira esse comentario quando juntar com o PedidoModel
-    public PagamentoModel save(PagamentoModel pagamento) {
-        if (pagamento.getPedido() == null) {
-            throw new IllegalArgumentException("O pagamento precisa estar associado a um pedido");
-        }
-        return pagamentoRepository.save(pagamento);
-    }
-    */
 
     public List<PagamentoModel> findAll() {
         return pagamentoRepository.findAll();
