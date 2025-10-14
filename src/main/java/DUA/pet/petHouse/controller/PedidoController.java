@@ -13,7 +13,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/pedidos")
 @RequiredArgsConstructor
-public class PedidoController {
+public class
+PedidoController {
 
     private final PedidoService pedidoService;
 
