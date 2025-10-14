@@ -1,5 +1,6 @@
 package DUA.pet.petHouse.model;
 
+import DUA.pet.petHouse.enums.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -50,6 +51,9 @@ public class UsuarioModel {
     )
     private String CPF;
 
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
+
     @NotBlank(message = "Campo obrigatorio")
     @Past(message = "Data de nascimento deve ser no passado")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
@@ -60,4 +64,8 @@ public class UsuarioModel {
     @JsonManagedReference
     private List<EnderecoModel> enderecos;
 
+    @PrePersist
+    private void setUp(){
+        this.role = Role.USER;
+    }
 }
