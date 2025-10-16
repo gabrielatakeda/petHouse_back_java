@@ -20,7 +20,7 @@ public class EnderecoService {
 
     public EnderecoModel findById(Long id) {
         return enderecoRepository.findById(id)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
     }
 
     public void delete(Long id){
