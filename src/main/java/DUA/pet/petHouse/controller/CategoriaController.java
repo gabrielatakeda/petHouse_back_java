@@ -54,6 +54,7 @@ public class  CategoriaController {
     @PostMapping("/save")
     public ResponseEntity<CategoriaModel> save(@RequestBody @Valid CategoriaModel categoria) {
         try {
+            System.out.println("Categoria recebida: " + categoria.getNome());
             var result = categoriaService.save(categoria);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception ex) {

@@ -37,6 +37,9 @@ public class CategoriaService {
     public CategoriaModel save(CategoriaModel categoria) {
         // IDENTIFICAR SE CATEGORIA JA EXITE
         // SE SIM LANÇAR EXCEPTION
+        if (categoria.getSlug() == null || categoria.getSlug().isBlank()) {
+            categoria.setSlug(gerarSlug(categoria.getNome()));
+        }
 
         Optional<CategoriaModel> categoriaBD = categoriaRepository.findByNome(categoria.getNome());
 
