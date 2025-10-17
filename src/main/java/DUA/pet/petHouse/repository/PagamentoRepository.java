@@ -13,6 +13,6 @@ public interface PagamentoRepository extends JpaRepository<PagamentoModel, Long>
     List<PagamentoModel> findByPedidoId(Long pedidoId);
     */
 
-    Optional<PagamentoModel> findByTransacaoId(String transacaoId);
+    //Optional<PagamentoModel> findByTransacaoId(String transacaoId);
 
 }

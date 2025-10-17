@@ -15,6 +15,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/categorias")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class  CategoriaController {
 
     @Autowired
@@ -31,7 +32,7 @@ public class  CategoriaController {
     }
 
     @GetMapping("/findById/{id}")
-    public ResponseEntity<CategoriaModel> findById(@PathVariable Long id) {
+    public ResponseEntity< Optional<CategoriaModel>> findById(@PathVariable Long id) {
         try {
             var result = categoriaService.findById(id);
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -91,4 +92,35 @@ public class  CategoriaController {
 //
 //        }
 //    }
+
+    @GetMapping("/pai")
+    public ResponseEntity<List<CategoriaModel>> findCategoriasPai() {
+        try {
+            List<CategoriaModel> categoriasPai = categoriaService.findAll()
+                    .stream()
+                    .filter(c -> c.getCategoriaPai() == null) // somente categorias sem pai
+                    .toList();
+            return new ResponseEntity<>(categoriasPai, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/{id}/subcategorias")
+    public ResponseEntity<List<CategoriaModel>> findSubcategorias(@PathVariable Long id) {
+        try {
+            Optional<CategoriaModel> categoria = categoriaService.findById(id);
+            if (categoria.isPresent()) {
+                // Pega diretamente as subcategorias mapeadas na entidade
+                List<CategoriaModel> subcategorias = categoria.get().getSubcategorias();
+                return new ResponseEntity<>(subcategorias, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(List.of(), HttpStatus.OK);
+            }
+        } catch (Exception ex) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 }

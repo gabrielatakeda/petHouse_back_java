@@ -33,7 +33,7 @@ public class UsuarioService {
         usuarioUpdate.setEmail(usuarioModel.getEmail());
         usuarioUpdate.setNome(usuarioModel.getNome());
         usuarioUpdate.setSenha(usuarioModel.getSenha());
-        usuarioUpdate.setUsuario(usuarioModel.getUsuario());
+        usuarioUpdate.setUser(usuarioModel.getUser());
 //        usuarioUpdate.setEnderecos(usuarioModel.getEnderecos());
 
 

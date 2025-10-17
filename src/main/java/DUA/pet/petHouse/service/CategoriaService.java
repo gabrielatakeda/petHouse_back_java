@@ -21,10 +21,14 @@ public class CategoriaService {
         return categoriaRepository.findByNome(nome);
     }
 
-    public CategoriaModel findById(Long id){
-        return categoriaRepository.findById(id)
-                .orElseThrow(RuntimeException::new);
+    public  Optional<CategoriaModel> findById(Long id){
+        return categoriaRepository.findById(id);
     }
+
+    public List<CategoriaModel> findCategoriasPai() {
+        return categoriaRepository.findCategoriasPai();
+    }
+
 
     public List<CategoriaModel> findAll() {
         return categoriaRepository.findAll();

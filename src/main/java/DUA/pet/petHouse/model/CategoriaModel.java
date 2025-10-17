@@ -1,5 +1,6 @@
 package DUA.pet.petHouse.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -34,6 +35,7 @@ public class CategoriaModel {
     //precisa disso sim pq nao tem definido onde tem as subcategorias estao
     // Categoria pai (self join)
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "categoria_pai_id")
     private CategoriaModel categoriaPai;
 
