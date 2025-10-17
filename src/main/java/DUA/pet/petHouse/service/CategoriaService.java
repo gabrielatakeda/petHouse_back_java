@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +45,16 @@ public class CategoriaService {
         subcategoria.setCategoriaPai(categoriaPai);
         return categoriaRepository.save(subcategoria);
     }
+
+    private String gerarSlug(String nome) {
+        String normalizado = Normalizer.normalize(nome, Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "");
+        return normalizado.toLowerCase()
+                .replaceAll("[^a-z0-9\\s-]", "")
+                .replaceAll("\\s+", "-")
+                .replaceAll("-+", "-");
+    }
+
 
 
 //    public void deleteById(Long id) {
