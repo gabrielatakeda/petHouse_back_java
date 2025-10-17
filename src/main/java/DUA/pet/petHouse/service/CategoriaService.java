@@ -38,6 +38,14 @@ public class CategoriaService {
         return categoriaRepository.save(categoria);
     }
 
+    public CategoriaModel criarSubcategoriaPorSlug(String slugPai, CategoriaModel subcategoria) {
+        CategoriaModel categoriaPai = categoriaRepository.findBySlug(slugPai)
+                .orElseThrow(() -> new RuntimeException("Categoria pai não encontrada"));
+        subcategoria.setCategoriaPai(categoriaPai);
+        return categoriaRepository.save(subcategoria);
+    }
+
+
 //    public void deleteById(Long id) {
 //        var categoria = this.findById(id);
 //        categoriaRepository.delete(categoria);

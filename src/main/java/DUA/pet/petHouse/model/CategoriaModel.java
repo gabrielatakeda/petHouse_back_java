@@ -28,8 +28,10 @@ public class CategoriaModel {
     @OneToMany(mappedBy = "categoria")
     private List<ProdutoModel> produtos;
 
+    @Column(unique = true, nullable = false)
+    private String slug;
 
-    //talvez eu nao precise disso
+    //precisa disso sim pq nao tem definido onde tem as subcategorias estao
     // Categoria pai (self join)
     @ManyToOne
     @JoinColumn(name = "categoria_pai_id")

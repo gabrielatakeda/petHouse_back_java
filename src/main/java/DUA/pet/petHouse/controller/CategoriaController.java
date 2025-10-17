@@ -61,6 +61,16 @@ public class  CategoriaController {
         }
     }
 
+    @PostMapping("/{slugPai}/subcategorias")
+    public ResponseEntity<CategoriaModel> criarSubcategoria(
+            @PathVariable String slugPai,
+            @RequestBody CategoriaModel subcategoria) {
+
+        CategoriaModel novaSubcategoria = categoriaService.criarSubcategoriaPorSlug(slugPai, subcategoria);
+        return ResponseEntity.ok(novaSubcategoria);
+    }
+
+
 //    @PutMapping("/update/{id}")
 //    public ResponseEntity<CategoriaModel> update(@PathVariable Long id, @RequestBody CategoriaModel categoria){
 //        try{
