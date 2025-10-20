@@ -9,5 +9,7 @@ public interface CategoriaRepository extends JpaRepository<CategoriaModel, Long>
 
     Optional<CategoriaModel> findByNome(String nome);
 
+    Optional<CategoriaModel> findById(Long id);
+
 
 }

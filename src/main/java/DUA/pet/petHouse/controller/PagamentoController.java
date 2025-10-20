@@ -1,6 +1,7 @@
 package DUA.pet.petHouse.controller;
 
 import DUA.pet.petHouse.model.PagamentoModel;
+import DUA.pet.petHouse.repository.PagamentoRepository;
 import DUA.pet.petHouse.service.PagamentoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import java.util.List;
 public class PagamentoController {
 
     private final PagamentoService pagamentoService;
+
+    private final PagamentoRepository pagamentoRepository;
 
     @GetMapping("/{id}")
     public ResponseEntity<PagamentoModel> findById(@PathVariable Long id) {
@@ -46,11 +49,11 @@ public class PagamentoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        try {
-            pagamentoService.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception ex) {
+        if (!pagamentoRepository.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
+        pagamentoService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
+
 }

@@ -2,6 +2,7 @@ package DUA.pet.petHouse.model;
 
 import DUA.pet.petHouse.enums.MetodoPagamento;
 import DUA.pet.petHouse.enums.StatusPagamento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class PagamentoModel {
 
     @OneToOne
     @JoinColumn(name = "pedido_id", unique = true)
+    @JsonBackReference
     private PedidoModel pedido;
 
 //    @NotNull
@@ -47,6 +49,9 @@ public class PagamentoModel {
         this.dataPagamento = LocalDate.now();
         if(this.statusPagamento == null) {
             this.statusPagamento = statusPagamento.PENDENTE;
+        }
+        if (this.metodoPagamento == null){
+            this.metodoPagamento = MetodoPagamento.CARTAO;
         }
     }
 }

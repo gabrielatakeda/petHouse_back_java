@@ -3,6 +3,7 @@ package DUA.pet.petHouse.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class EnderecoModel {
     @NotBlank(message = "Campo obrigatorio")
     private String logradouro;
 
-    @NotBlank(message = "Campo obrigatorio")
+    @NotNull(message = "Campo obrigatorio")
     private int numero;
 
     @NotBlank(message = "Campo obrigatorio")

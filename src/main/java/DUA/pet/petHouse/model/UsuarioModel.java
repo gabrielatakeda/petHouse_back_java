@@ -54,7 +54,7 @@ public class UsuarioModel {
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 
-    @NotBlank(message = "Campo obrigatorio")
+    @NotNull(message = "Campo obrigatorio")
     @Past(message = "Data de nascimento deve ser no passado")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;

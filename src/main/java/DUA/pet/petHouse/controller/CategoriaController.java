@@ -26,7 +26,7 @@ public class  CategoriaController {
             var result = categoriaService.findAll();
             return new ResponseEntity<>(result, HttpStatus.OK);
         }catch (Exception ex){
-            return  new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+            return  new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
 
@@ -36,7 +36,7 @@ public class  CategoriaController {
             var result = categoriaService.findById(id);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 

@@ -1,13 +1,17 @@
 package DUA.pet.petHouse;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
+@ActiveProfiles("test")
 public class PetHouseApplicationTests {
 
-    @LocalServerPort
-    private int port;
+    @Test
+    void contextLoads() {
+    }
 
 
 }
