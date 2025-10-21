@@ -77,6 +77,29 @@ public class ProdutoServiceTest {
         Assertions.assertEquals("banana", response.get(0).getNome());
     }
 
+    @Test
+    @DisplayName("Teste função update ProdutoService - campos nulos (não entra nos ifs)")
+    void updateSemCamposParaAtualizar() {
+        when(repository.findById(1L)).thenReturn(Optional.of(produto));
+        when(repository.save(any(ProdutoModel.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        ProdutoModel atualizado = new ProdutoModel();
+        atualizado.setId(1L);
+        atualizado.setNome("banana");
+        atualizado.setDescricao("banana prata");
+        atualizado.setPrecoVenda(null);
+        atualizado.setQuantidade(null);
+        atualizado.setCategoria(new CategoriaModel());
+
+        ProdutoModel response = service.update(1L, atualizado);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(produto.getPrecoVenda(), response.getPrecoVenda());
+        Assertions.assertEquals(produto.getQuantidade(), response.getQuantidade());
+        verify(repository, times(1)).save(any(ProdutoModel.class));
+    }
+
+
 
     @Test
     @DisplayName("Teste função save ProdutoService com BucketFile mockado")
