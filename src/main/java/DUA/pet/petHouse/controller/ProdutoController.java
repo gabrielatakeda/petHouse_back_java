@@ -47,14 +47,22 @@ public class ProdutoController {
         }
     }
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE) //Indica que o endpoint recebe multipart/form-data (arquivo + partes)
-    public ResponseEntity<ProdutoModel> save ( //Função de criar um novo produto
-            @RequestPart("produto") ProdutoModel produto, //Espera uma parte chamada "produto" contendo um JSON (o produto), o Spring converte para ProdutoModel
-            @RequestPart("file") MultipartFile file) { //Espera a parte chamada "file" com o arquivo enviado. É essa parte que será enviada ao MinIO
-        try (InputStream is = file.getInputStream() ){ //Abre um fluxo de leitura do arquivo enviado, permite ler os bytes para enviar ao MinIo
-            MediaType type = MediaType.parseMediaType(file.getContentType()); //Pega o tipo do conteúdo do arquivo e transforma em um objeto MediaType
-            var bucketFile = new BucketFile(file.getName(), is, type, file.getSize()); /*Cria um objeto de transporte com os dados do arquivo (nome, tamanho, conteúdo, tipo),
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProdutoModel> save (
+            //Espera uma parte chamada "produto" contendo um JSON (o produto), o Spring converte para ProdutoModel
+            @RequestPart("produto") ProdutoModel produto,
+            //Espera a parte chamada "file" com o arquivo enviado. É essa parte que será enviada ao MinIO
+            @RequestPart("file") MultipartFile file) {
+
+        //Abre um fluxo de leitura do arquivo enviado, permite ler os bytes para enviar ao MinIo
+        try (InputStream is = file.getInputStream() ){
+
+            //Pega o tipo do conteúdo do arquivo e transforma em um objeto MediaType
+            MediaType type = MediaType.parseMediaType(file.getContentType());
+
+            /*Cria um objeto de transporte com os dados do arquivo (nome, tamanho, conteúdo, tipo),
             esse objeto é passado para o ProdutoService, que vai fazer o upload para o MinIO usando essas informações, depois do upload, o service gera uma url de acesso ao arquivo*/
+            var bucketFile = new BucketFile(file.getName(), is, type, file.getSize());
 
             ProdutoModel saved = produtoService.save(produto, bucketFile);
 

@@ -6,10 +6,12 @@ import DUA.pet.petHouse.repository.EnderecoRepository;
 import DUA.pet.petHouse.repository.PagamentoRepository;
 import DUA.pet.petHouse.repository.PedidoRepository;
 import DUA.pet.petHouse.repository.UsuarioRepository;
+import DUA.pet.petHouse.service.PedidoService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -19,12 +21,16 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import static org.mockito.Mockito.*;
 import java.util.HashSet;
+import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class PedidoControllerTest {
+
+    @Mock
+    PedidoService pedidoService;
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -157,5 +163,17 @@ public class PedidoControllerTest {
                 .postForEntity("/pedidos/save", novoPedido, PedidoModel.class);
 
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    void findAllException() {
+        PedidoController controller = new PedidoController(pedidoService);
+
+        // Simula exceção no service
+        when(pedidoService.findAll()).thenThrow(new RuntimeException("Erro ao listar pedidos"));
+
+        ResponseEntity<List<PedidoModel>> response = controller.findAll();
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertNull(response.getBody());
     }
 }

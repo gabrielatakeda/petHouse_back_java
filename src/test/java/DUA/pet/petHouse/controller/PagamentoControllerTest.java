@@ -11,12 +11,16 @@ import DUA.pet.petHouse.repository.EnderecoRepository;
 import DUA.pet.petHouse.repository.PagamentoRepository;
 import DUA.pet.petHouse.repository.PedidoRepository;
 import DUA.pet.petHouse.repository.UsuarioRepository;
+import DUA.pet.petHouse.service.PagamentoService;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
+
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,6 +30,9 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class PagamentoControllerTest {
+
+    @Mock
+    PagamentoService pagamentoService;
 
     @Autowired
     TestRestTemplate restTemplate;
@@ -135,4 +142,20 @@ public class PagamentoControllerTest {
 
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
+
+    @Test
+    @DisplayName("findAll - lista vazia retorna 204 No Content")
+    void findAllEmpty() {
+        PagamentoController controller = new PagamentoController(pagamentoService, pagamentoRepository);
+
+        // Simula retorno vazio
+        when(pagamentoService.findAll()).thenReturn(List.of());
+
+        ResponseEntity<List<PagamentoModel>> response = controller.findAll();
+
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        Assertions.assertNull(response.getBody());
+    }
+
+
 }

@@ -1,15 +1,22 @@
 package DUA.pet.petHouse.controller;
 
+import DUA.pet.petHouse.bucket.BucketFile;
 import DUA.pet.petHouse.model.ProdutoModel;
 import DUA.pet.petHouse.repository.ProdutoRepository;
+import DUA.pet.petHouse.service.ProdutoService;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -23,6 +30,9 @@ public class ProdutoControllerTest {
 
     ProdutoModel produto;
 
+    @Mock
+    ProdutoService produtoService;
+
     @BeforeEach
     void setUp() {
         produtoRepository.deleteAll();
@@ -34,6 +44,7 @@ public class ProdutoControllerTest {
         produto.setQuantidade(10);
         produto.setUrlFoto("foto.jpg");
         produto = produtoRepository.save(produto);
+
     }
 
     @Test
@@ -83,4 +94,112 @@ public class ProdutoControllerTest {
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
+
+    @Test
+    @DisplayName("Save Produto")
+    void saveProduto () {
+
+        var controllerToTeste = new ProdutoController(produtoService);
+        ProdutoModel produtoNovo = new ProdutoModel();
+        produtoNovo.setNome("Molho de tomate");
+        produtoNovo.setDescricao("Molho de tomate Elefante 250ml");
+        produtoNovo.setPrecoVenda(5.0);
+        produtoNovo.setQuantidade(25);
+        produtoNovo.setUrlFoto("foto.jpg");
+
+        MultipartFile mockFile = new MockMultipartFile(
+                "file",                       // nome do campo
+                "imagem.jpeg",                // nome do arquivo
+                MediaType.IMAGE_JPEG_VALUE,   // tipo do conteúdo
+                "conteudo qualquer".getBytes() // conteúdo binário
+        );
+
+        when(produtoService.save(any(ProdutoModel.class), any(BucketFile.class))).thenReturn(produtoNovo);
+
+        var response = controllerToTeste.save(produtoNovo, mockFile);
+
+        Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        Assertions.assertNotNull(response.getBody());
+        Assertions.assertEquals("Molho de tomate", response.getBody().getNome());
+    }
+
+    @Test
+    @DisplayName("findByNome produto")
+    void findByNomeProduto () {
+        ResponseEntity<ProdutoModel[]> response = restTemplate
+                .getForEntity("/produtos/nome?nome=" + produto.getNome(), ProdutoModel[].class);
+
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertNotNull(response.getBody());
+        Assertions.assertTrue(response.getBody().length > 0);
+    }
+
+    @Test
+    @DisplayName("findAll - exceção lançada")
+    void findAllException() {
+        var controllerToTest = new ProdutoController(produtoService);
+        when(produtoService.findAll()).thenThrow(new RuntimeException("Erro ao listar produtos"));
+
+        ResponseEntity<List<ProdutoModel>> response = controllerToTest.findAll();
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertNull(response.getBody());
+    }
+
+    @Test
+    @DisplayName("save - exceção lançada")
+    void saveProdutoException() {
+        var controllerToTest = new ProdutoController(produtoService);
+
+        ProdutoModel produtoNovo = new ProdutoModel();
+        produtoNovo.setNome("Molho de tomate");
+        produtoNovo.setDescricao("Molho de tomate Elefante 250ml");
+        produtoNovo.setPrecoVenda(5.0);
+        produtoNovo.setQuantidade(25);
+        produtoNovo.setUrlFoto("foto.jpg");
+
+        MultipartFile mockFile = new MockMultipartFile(
+                "file",
+                "imagem.jpeg",
+                MediaType.IMAGE_JPEG_VALUE,
+                "conteudo qualquer".getBytes()
+        );
+
+        when(produtoService.save(any(ProdutoModel.class), any(BucketFile.class)))
+                .thenThrow(new RuntimeException("Erro ao salvar produto"));
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            controllerToTest.save(produtoNovo, mockFile);
+        });
+    }
+
+    @Test
+    @DisplayName("deleteById - exceção lançada")
+    void deleteByIdException() {
+        var controllerToTest = new ProdutoController(produtoService);
+        doThrow(new RuntimeException("Erro ao deletar")).when(produtoService).deleteById(anyLong());
+
+        ResponseEntity<Void> response = controllerToTest.deleteById(999L);
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("update - exceção lançada")
+    void updateProdutoException() {
+        var controllerToTest = new ProdutoController(produtoService);
+
+        ProdutoModel produtoAtualizado = new ProdutoModel();
+        produtoAtualizado.setNome("Banana Prata");
+
+        when(produtoService.update(anyLong(), any(ProdutoModel.class)))
+                .thenThrow(new RuntimeException("Erro ao atualizar"));
+
+        ResponseEntity<ProdutoModel> response = controllerToTest.update(999L, produtoAtualizado);
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertNull(response.getBody());
+    }
+
+
 }

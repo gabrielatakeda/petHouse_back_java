@@ -1,6 +1,7 @@
 package DUA.pet.petHouse.controller;
 
 import DUA.pet.petHouse.model.EnderecoModel;
+import DUA.pet.petHouse.repository.EnderecoRepository;
 import DUA.pet.petHouse.service.EnderecoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,9 @@ public class EnderecoController {
 
     @Autowired
     private final EnderecoService enderecoService;
+
+    @Autowired
+    private final EnderecoRepository enderecoRepository;
 
     @PostMapping("/save")
     public ResponseEntity<EnderecoModel> save(@RequestBody @Valid EnderecoModel enderecoModel) {
@@ -42,13 +46,13 @@ public class EnderecoController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
-        try{
-            enderecoService.delete(id);
-            return ResponseEntity.noContent().build();
-        }catch (Exception ex){
+        if (!enderecoRepository.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
+        enderecoService.delete(id);
+        return ResponseEntity.noContent().build();
     }
+
 
     @PutMapping("/update/{id}")
     public ResponseEntity<EnderecoModel> update(@PathVariable Long id, @RequestBody @Valid EnderecoModel enderecoUpdate){

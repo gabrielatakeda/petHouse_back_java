@@ -2,10 +2,12 @@ package DUA.pet.petHouse.controller;
 
 import DUA.pet.petHouse.model.CategoriaModel;
 import DUA.pet.petHouse.repository.CategoriaRepository;
+import DUA.pet.petHouse.service.CategoriaService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -13,11 +15,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
+import static org.mockito.Mockito.*;
+
 import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class CategoriaControllerTest {
+
+    @Mock
+    CategoriaService categoriaService;
 
     @Autowired
     TestRestTemplate restTemplate;
@@ -139,4 +147,38 @@ public class CategoriaControllerTest {
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
+
+    @Test
+    @DisplayName("findAll - exceção lançada")
+    void findAllCategoriaException() {
+        var controllerToTest = new CategoriaController(categoriaService);
+
+        when(categoriaService.findAll()).thenThrow(new RuntimeException("Erro ao listar categorias"));
+
+        ResponseEntity<List<CategoriaModel>> response = controllerToTest.findAll();
+
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        Assertions.assertNull(response.getBody());
+    }
+
+    @Test
+    @DisplayName("save - exceção lançada")
+    void saveCategoriaException() {
+        var controllerToTest = new CategoriaController(categoriaService);
+
+        CategoriaModel novaCategoria = new CategoriaModel();
+        novaCategoria.setNome("Eletronicos");
+        novaCategoria.setProdutos(new ArrayList<>());
+        novaCategoria.setSubcategorias(new ArrayList<>());
+
+        when(categoriaService.save(any(CategoriaModel.class)))
+                .thenThrow(new RuntimeException("Erro ao salvar categoria"));
+
+        ResponseEntity<CategoriaModel> response = controllerToTest.save(novaCategoria);
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertNull(response.getBody());
+    }
+
+
 }
