@@ -56,7 +56,7 @@ public class UsuarioControllerTest {
         usuario.setEmail("maria@test.com");
         usuario.setSenha("Senha@123");
         usuario.setUser("mariauser");
-        usuario.setCPF("11122233344");
+        usuario.setCpf("11122233344");
         usuario.setDataNascimento(LocalDate.of(1995, 5, 20));
         usuario.setEnderecos(new ArrayList<>());
         usuario = usuarioRepository.save(usuario);
@@ -97,7 +97,7 @@ public class UsuarioControllerTest {
         novo.setEmail("carlos@test.com");
         novo.setSenha("Senha@123");
         novo.setUser("carlosuser");
-        novo.setCPF("12345678910");
+        novo.setCpf("12345678910");
         novo.setDataNascimento(LocalDate.of(2001, 8, 15));
         novo.setEnderecos(new ArrayList<>());
 
@@ -126,7 +126,7 @@ public class UsuarioControllerTest {
         novoUsuario.setEmail("carlos@test.com");
         novoUsuario.setSenha("Senha@123");
         novoUsuario.setUser("carlosuser");
-        novoUsuario.setCPF("12345678910");
+        novoUsuario.setCpf("12345678910");
         novoUsuario.setDataNascimento(LocalDate.of(2001, 8, 15));
         novoUsuario.setEnderecos(new ArrayList<>());
 
@@ -158,7 +158,7 @@ public class UsuarioControllerTest {
         usuarioAtualizado.setEmail("maria.atualizada@test.com");
         usuarioAtualizado.setSenha("Senha@123");
         usuarioAtualizado.setUser("mariauser");
-        usuarioAtualizado.setCPF("11122233344");
+        usuarioAtualizado.setCpf("11122233344");
         usuarioAtualizado.setDataNascimento(LocalDate.of(1995, 5, 20));
         usuarioAtualizado.setEnderecos(new ArrayList<>());
 

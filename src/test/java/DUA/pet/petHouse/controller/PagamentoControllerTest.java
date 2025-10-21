@@ -62,7 +62,7 @@ public class PagamentoControllerTest {
         usuario.setEmail("maria@email.com");
         usuario.setSenha("Abcd@1234");
         usuario.setUser("mariaUser");
-        usuario.setCPF("98765432100");
+        usuario.setCpf("98765432100");
         usuario.setDataNascimento(LocalDate.of(1995, 5, 5));
         usuario = usuarioRepository.save(usuario);
 

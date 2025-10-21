@@ -58,7 +58,7 @@ public class EnderecoControllerTest {
         usuario.setEmail("joao@test.com");
         usuario.setSenha("Senha@123");
         usuario.setUser("joaouser");
-        usuario.setCPF("12345678901");
+        usuario.setCpf("12345678901");
         usuario.setDataNascimento(LocalDate.of(2000, 1, 1));
         usuario = usuarioRepository.save(usuario);
 

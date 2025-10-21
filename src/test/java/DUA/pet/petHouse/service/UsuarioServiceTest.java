@@ -35,7 +35,7 @@ public class UsuarioServiceTest {
         usuario.setId(1L);
         usuario.setNome("João Luiz Martinazzo");
         usuario.setUser("JLMartinazzo");
-        usuario.setCPF("132.218.199-35");
+        usuario.setCpf("132.218.199-35");
         usuario.setEmail("jl.martinazzo@gmaiil.com");
         usuario.setSenha("jl99766590");
         usuario.setRole(Role.ADMIN);
@@ -71,7 +71,7 @@ public class UsuarioServiceTest {
         usuarioSave.setId(1L);
         usuarioSave.setNome("João Luiz Martinazzo");
         usuarioSave.setUser("JLMartinazzo");
-        usuarioSave.setCPF("132.218.199-35");
+        usuarioSave.setCpf("132.218.199-35");
         usuarioSave.setEmail("jl.martinazzo@gmaiil.com");
         usuarioSave.setSenha("jl99766590");
         usuarioSave.setRole(Role.ADMIN);
@@ -79,7 +79,7 @@ public class UsuarioServiceTest {
 
         var response = service.save(usuarioSave);
         Assertions.assertNotNull(response);
-        Assertions.assertEquals(usuarioSave.getCPF(), response.getCPF());
+        Assertions.assertEquals(usuarioSave.getCpf(), response.getCpf());
     }
 
     @Test
@@ -92,7 +92,7 @@ public class UsuarioServiceTest {
         update.setId(1L);
         update.setNome("Alceni Jose Martinazzo");
         update.setUser("alceniMartinazzo");
-        update.setCPF("857.689.019-49");
+        update.setCpf("857.689.019-49");
         update.setEmail("ni.martinazzo@hotmail.com");
         update.setSenha("91145114");
         update.setRole(Role.USER);

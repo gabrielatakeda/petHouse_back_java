@@ -67,7 +67,7 @@ public class PedidoControllerTest {
         usuario.setEmail("joao@email.com");
         usuario.setSenha("Abcd@1234");
         usuario.setUser("joaoUser");
-        usuario.setCPF("12345678901");
+        usuario.setCpf("12345678901");
         usuario.setDataNascimento(LocalDate.of(1990, 1, 1));
         usuario = usuarioRepository.save(usuario);
 
