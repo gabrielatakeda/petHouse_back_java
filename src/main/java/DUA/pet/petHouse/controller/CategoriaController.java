@@ -40,10 +40,13 @@ public class  CategoriaController {
         }
     }
 
-    @GetMapping("/nome")
-    public ResponseEntity<Optional<CategoriaModel>> findByNome(@RequestParam String nome) {
+    @GetMapping("/nome/{nome}")
+    public ResponseEntity<Optional<CategoriaModel>> findByNome(@PathVariable String nome) {
         try {
             var result = categoriaService.findByNome(nome);
+            if (result.isEmpty()){
+                return ResponseEntity.noContent().build();
+            }
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

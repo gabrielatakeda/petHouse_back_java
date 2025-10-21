@@ -19,6 +19,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -95,20 +96,33 @@ public class CategoriaControllerTest {
     @DisplayName("Teste API findByNome CategoriaController")
     void findByNomeTest() {
         ResponseEntity<CategoriaModel> response = restTemplate
-                .getForEntity("/categorias/nome?nome=" + categoria.getNome(), CategoriaModel.class);
+                .getForEntity("/categorias/nome/" + categoria.getNome(), CategoriaModel.class);
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertNotNull(response.getBody());
     }
 
-//    @Test
-//    @DisplayName("Teste erro 404 no findByNome (não encontrado)")
-//    void findByNomeNotFound() {
-//        ResponseEntity<CategoriaModel> response = restTemplate
-//                .getForEntity("/categorias/nome?nome=nãoExiste", CategoriaModel.class);
-//
-//        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-//    }
+    @Test
+    @DisplayName("Teste erro no findByNome (NO_CONTENT)")
+    void findByNomeNotFound() {
+        ResponseEntity<CategoriaModel> response = restTemplate
+                .getForEntity("/categorias/nome/inexistente", CategoriaModel.class);
+
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Teste erro findByNome (BAD_REQUEST)")
+    void findByNomeBadRequest () {
+        var categoriaControllerTest = new CategoriaController(categoriaService);
+
+        when(categoriaService.findByNome("erro"))
+                .thenThrow(new RuntimeException("erro simulado"));
+
+        ResponseEntity<Optional<CategoriaModel>> response = categoriaControllerTest.findByNome("erro");
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
 
     @Test
     @DisplayName("Teste API save CategoriaController")

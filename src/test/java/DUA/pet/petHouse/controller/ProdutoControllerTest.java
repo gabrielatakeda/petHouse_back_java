@@ -33,6 +33,9 @@ public class ProdutoControllerTest {
     @Mock
     ProdutoService produtoService;
 
+    @Autowired
+    ProdutoController produtoController;
+
     @BeforeEach
     void setUp() {
         produtoRepository.deleteAll();
@@ -127,11 +130,34 @@ public class ProdutoControllerTest {
     @DisplayName("findByNome produto")
     void findByNomeProduto () {
         ResponseEntity<ProdutoModel[]> response = restTemplate
-                .getForEntity("/produtos/nome?nome=" + produto.getNome(), ProdutoModel[].class);
+                .getForEntity("/produtos/nome/" + produto.getNome(), ProdutoModel[].class);
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertNotNull(response.getBody());
         Assertions.assertTrue(response.getBody().length > 0);
+    }
+
+    @Test
+    @DisplayName("findByNome produto - exceção BAD_REQUEST")
+    void findByNomeProdutoBadRequest() {
+        var controllerToTest = new ProdutoController(produtoService);
+
+        when(produtoService.findByNome("erro"))
+                .thenThrow(new RuntimeException("erro simulado"));
+
+        ResponseEntity<List<ProdutoModel>> response = controllerToTest.findByNome("erro");
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+
+    @Test
+    @DisplayName("findByNome produto - exeção NO_CONTENT")
+    void findByNomeProdutoExeption () {
+        ResponseEntity<ProdutoModel[]> response = restTemplate
+                .getForEntity("/produtos/nome/inexistente" , ProdutoModel[].class);
+
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
     @Test
@@ -198,6 +224,21 @@ public class ProdutoControllerTest {
         ResponseEntity<ProdutoModel> response = controllerToTest.update(999L, produtoAtualizado);
 
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertNull(response.getBody());
+    }
+
+    @Test
+    @DisplayName("update - exceção (NOT_FOUND)")
+    void updateNotFound() {
+        var controllerToTest = new ProdutoController(produtoService);
+        ProdutoModel produtoAtualizado = new ProdutoModel();
+        produtoAtualizado.setNome("Produto inexistente");
+
+        when(produtoService.update(anyLong(), any(ProdutoModel.class))).thenReturn(null);
+
+        ResponseEntity<ProdutoModel> response = controllerToTest.update(999L, produtoAtualizado);
+
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         Assertions.assertNull(response.getBody());
     }
 

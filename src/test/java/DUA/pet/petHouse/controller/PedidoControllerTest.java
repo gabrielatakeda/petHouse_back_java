@@ -165,6 +165,8 @@ public class PedidoControllerTest {
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
+    @Test
+    @DisplayName("Teste findAll - exeption")
     void findAllException() {
         PedidoController controller = new PedidoController(pedidoService);
 

@@ -19,14 +19,19 @@ import java.util.List;
 public class ProdutoController {
     private final ProdutoService produtoService;
 
-    @GetMapping("/nome")
-    public ResponseEntity<List<ProdutoModel>> findByNome(@RequestParam String nome){
+    @GetMapping("/nome/{nome}")
+    public ResponseEntity<List<ProdutoModel>> findByNome(@PathVariable String nome) {
         try {
-            return new ResponseEntity<>(produtoService.findByNome(nome), HttpStatus.OK);
-        } catch (Exception ex){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            List<ProdutoModel> produtos = produtoService.findByNome(nome);
+            if (produtos.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(produtos);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
         }
     }
+
 
     @GetMapping("/findById/{id}")
     public ResponseEntity<ProdutoModel> findById(@PathVariable Long id) {
