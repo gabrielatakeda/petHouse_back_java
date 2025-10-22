@@ -24,8 +24,6 @@ public class UsuarioModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-
     @NotBlank(message = "Campo obrigatorio")
     private String nome;
 
