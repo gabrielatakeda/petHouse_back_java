@@ -55,7 +55,7 @@ public class UsuarioModel {
     private Role role = Role.USER;
 
 //    @Past(message = "Data de nascimento deve ser no passado")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)

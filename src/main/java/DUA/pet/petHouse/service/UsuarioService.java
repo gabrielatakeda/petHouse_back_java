@@ -6,6 +6,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+
 import java.util.List;
 
 @Service
@@ -14,7 +18,11 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
     public UsuarioModel save(UsuarioModel usuarioModel){
+        usuarioModel.setSenha(passwordEncoder.encode(usuarioModel.getSenha()));
         return usuarioRepository.save(usuarioModel);
     }
 
@@ -30,6 +38,7 @@ public class UsuarioService {
     public UsuarioModel update(Long id, @Valid UsuarioModel usuarioModel) {
         UsuarioModel usuarioUpdate = this.findById(id);
 
+        usuarioUpdate.setSenha(passwordEncoder.encode(usuarioModel.getSenha()));
         usuarioUpdate.setEmail(usuarioModel.getEmail());
         usuarioUpdate.setNome(usuarioModel.getNome());
         usuarioUpdate.setSenha(usuarioModel.getSenha());
@@ -43,4 +52,19 @@ public class UsuarioService {
     public List<UsuarioModel> findAll(){
         return usuarioRepository.findAll();
     }
+
+    public UsuarioModel login(String usuarioLogin, String senha) {
+        UsuarioModel usuario = usuarioRepository.findByEmailOrCpf(usuarioLogin, usuarioLogin)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if (!passwordEncoder.matches(senha, usuario.getSenha())) {
+            throw new RuntimeException("Senha incorreta");
+        }
+
+        return usuario;
+    }
+
+
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -72,5 +73,19 @@ public class UsuarioController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<UsuarioModel> login(@RequestBody Map<String, String> credentials) {
+        String usuarioLogin = credentials.get("usuarioLogin");
+        String senha = credentials.get("senha");
+
+        try {
+            UsuarioModel usuario = usuarioService.login(usuarioLogin, senha);
+            return new ResponseEntity<>(usuario, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+    }
+
 
 }
