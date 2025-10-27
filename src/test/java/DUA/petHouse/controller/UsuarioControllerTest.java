@@ -1,11 +1,11 @@
-package DUA.pet.petHouse.controller;
+package DUA.petHouse.controller;
 
-import DUA.pet.petHouse.model.UsuarioModel;
-import DUA.pet.petHouse.repository.EnderecoRepository;
-import DUA.pet.petHouse.repository.PagamentoRepository;
-import DUA.pet.petHouse.repository.PedidoRepository;
-import DUA.pet.petHouse.repository.UsuarioRepository;
-import DUA.pet.petHouse.service.UsuarioService;
+import DUA.petHouse.model.UsuarioModel;
+import DUA.petHouse.repository.EnderecoRepository;
+import DUA.petHouse.repository.PagamentoRepository;
+import DUA.petHouse.repository.PedidoRepository;
+import DUA.petHouse.repository.UsuarioRepository;
+import DUA.petHouse.service.UsuarioService;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
-package DUA.pet.petHouse.service;
+package DUA.petHouse.service;
 
-import DUA.pet.petHouse.model.CategoriaModel;
-import DUA.pet.petHouse.repository.CategoriaRepository;
-import DUA.pet.petHouse.repository.ProdutoRepository;
+import DUA.petHouse.model.CategoriaModel;
+import DUA.petHouse.repository.CategoriaRepository;
+import DUA.petHouse.repository.ProdutoRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +39,7 @@ public class CategoriaServiceTest {
         categoria.setNome("Informatica");
         categoria.setSubcategorias(new ArrayList<>());
         categoria.setProdutos(new ArrayList<>());
+        categoria.setSlug("Informatica");
     }
 
     @Test
@@ -58,7 +59,7 @@ public class CategoriaServiceTest {
 
         var response = service.findById(1L);
         Assertions.assertNotNull(response);
-        Assertions.assertEquals(categoria.getId(), response.getId());
+        Assertions.assertEquals(categoria.getId(), response.get().getId());
     }
 
     @Test
@@ -80,6 +81,7 @@ public class CategoriaServiceTest {
         novaCategoria.setNome("Informatica");
         novaCategoria.setSubcategorias(new ArrayList<>());
         novaCategoria.setProdutos(new ArrayList<>());
+        novaCategoria.setSlug("Informatica");
 
         var response = service.save(novaCategoria);
         Assertions.assertNotNull(response);

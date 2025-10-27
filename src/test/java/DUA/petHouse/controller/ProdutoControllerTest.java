@@ -1,9 +1,9 @@
-package DUA.pet.petHouse.controller;
+package DUA.petHouse.controller;
 
-import DUA.pet.petHouse.bucket.BucketFile;
-import DUA.pet.petHouse.model.ProdutoModel;
-import DUA.pet.petHouse.repository.ProdutoRepository;
-import DUA.pet.petHouse.service.ProdutoService;
+import DUA.petHouse.bucket.BucketFile;
+import DUA.petHouse.model.ProdutoModel;
+import DUA.petHouse.repository.ProdutoRepository;
+import DUA.petHouse.service.ProdutoService;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;

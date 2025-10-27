@@ -1,6 +1,6 @@
-package DUA.pet.petHouse.bucket;
+package DUA.petHouse.bucket;
 
-import DUA.pet.petHouse.configuration.MinioProps;
+import DUA.petHouse.configuration.MinioProps;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import org.junit.jupiter.api.BeforeEach;

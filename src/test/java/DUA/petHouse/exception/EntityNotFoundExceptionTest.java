@@ -1,4 +1,4 @@
-package DUA.pet.petHouse.exception;
+package DUA.petHouse.exception;
 
 
 import org.junit.jupiter.api.Test;

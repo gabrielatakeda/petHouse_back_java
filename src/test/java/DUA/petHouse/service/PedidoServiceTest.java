@@ -1,9 +1,9 @@
-package DUA.pet.petHouse.service;
+package DUA.petHouse.service;
 
-import DUA.pet.petHouse.enums.StatusPedido;
-import DUA.pet.petHouse.model.PedidoModel;
-import DUA.pet.petHouse.model.UsuarioModel;
-import DUA.pet.petHouse.repository.PedidoRepository;
+import DUA.petHouse.enums.StatusPedido;
+import DUA.petHouse.model.PedidoModel;
+import DUA.petHouse.model.UsuarioModel;
+import DUA.petHouse.repository.PedidoRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

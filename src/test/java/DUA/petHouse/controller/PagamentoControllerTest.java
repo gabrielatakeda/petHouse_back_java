@@ -1,17 +1,17 @@
-package DUA.pet.petHouse.controller;
+package DUA.petHouse.controller;
 
-import DUA.pet.petHouse.enums.MetodoPagamento;
-import DUA.pet.petHouse.enums.StatusPagamento;
-import DUA.pet.petHouse.enums.StatusPedido;
-import DUA.pet.petHouse.model.EnderecoModel;
-import DUA.pet.petHouse.model.PagamentoModel;
-import DUA.pet.petHouse.model.PedidoModel;
-import DUA.pet.petHouse.model.UsuarioModel;
-import DUA.pet.petHouse.repository.EnderecoRepository;
-import DUA.pet.petHouse.repository.PagamentoRepository;
-import DUA.pet.petHouse.repository.PedidoRepository;
-import DUA.pet.petHouse.repository.UsuarioRepository;
-import DUA.pet.petHouse.service.PagamentoService;
+import DUA.petHouse.enums.MetodoPagamento;
+import DUA.petHouse.enums.StatusPagamento;
+import DUA.petHouse.enums.StatusPedido;
+import DUA.petHouse.model.EnderecoModel;
+import DUA.petHouse.model.PagamentoModel;
+import DUA.petHouse.model.PedidoModel;
+import DUA.petHouse.model.UsuarioModel;
+import DUA.petHouse.repository.EnderecoRepository;
+import DUA.petHouse.repository.PagamentoRepository;
+import DUA.petHouse.repository.PedidoRepository;
+import DUA.petHouse.repository.UsuarioRepository;
+import DUA.petHouse.service.PagamentoService;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,12 +135,12 @@ public class PagamentoControllerTest {
     }
 
     @Test
-    @DisplayName("deleteById inexistente (400)")
+    @DisplayName("deleteById inexistente (204)")
     void deleteByIdNotFound() {
         ResponseEntity<Void> response =
                 restTemplate.exchange("/pagamentos/9999", HttpMethod.DELETE, null, Void.class);
 
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
     @Test

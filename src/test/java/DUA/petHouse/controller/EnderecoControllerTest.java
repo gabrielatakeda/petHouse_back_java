@@ -1,12 +1,12 @@
-package DUA.pet.petHouse.controller;
+package DUA.petHouse.controller;
 
-import DUA.pet.petHouse.model.EnderecoModel;
-import DUA.pet.petHouse.model.UsuarioModel;
-import DUA.pet.petHouse.repository.EnderecoRepository;
-import DUA.pet.petHouse.repository.PagamentoRepository;
-import DUA.pet.petHouse.repository.PedidoRepository;
-import DUA.pet.petHouse.repository.UsuarioRepository;
-import DUA.pet.petHouse.service.EnderecoService;
+import DUA.petHouse.model.EnderecoModel;
+import DUA.petHouse.model.UsuarioModel;
+import DUA.petHouse.repository.EnderecoRepository;
+import DUA.petHouse.repository.PagamentoRepository;
+import DUA.petHouse.repository.PedidoRepository;
+import DUA.petHouse.repository.UsuarioRepository;
+import DUA.petHouse.service.EnderecoService;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -192,7 +192,7 @@ public class EnderecoControllerTest {
 
         ResponseEntity<Void> response = controllerToTest.delete(999L);
 
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
 

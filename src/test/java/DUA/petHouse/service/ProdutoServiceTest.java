@@ -1,10 +1,10 @@
-package DUA.pet.petHouse.service;
+package DUA.petHouse.service;
 
-import DUA.pet.petHouse.bucket.BucketFile;
-import DUA.pet.petHouse.bucket.BucketService;
-import DUA.pet.petHouse.model.CategoriaModel;
-import DUA.pet.petHouse.model.ProdutoModel;
-import DUA.pet.petHouse.repository.ProdutoRepository;
+import DUA.petHouse.bucket.BucketFile;
+import DUA.petHouse.bucket.BucketService;
+import DUA.petHouse.model.CategoriaModel;
+import DUA.petHouse.model.ProdutoModel;
+import DUA.petHouse.repository.ProdutoRepository;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Assertions;

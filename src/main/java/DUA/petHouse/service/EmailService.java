@@ -17,22 +17,26 @@ public class EmailService {
     @Value("${mail.password}")
     private String senha;
 
-    public void enviarEmail(String destinatario, String assunto, String corpo) {
+    // Método protegido para facilitar teste
+    protected Session criarSessao() {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
-        Session session = Session.getInstance(props, new Authenticator() {
+        return Session.getInstance(props, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(usuario, senha);
             }
         });
+    }
 
+    public void enviarEmail(String destinatario, String assunto, String corpo) {
         try {
-            Message message = new MimeMessage(session);
+            if (corpo == null) corpo = ""; // evita NullPointer
+            Message message = new MimeMessage(criarSessao());
             message.setFrom(new InternetAddress(usuario));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
             message.setSubject(assunto);
@@ -48,4 +52,3 @@ public class EmailService {
         }
     }
 }
-

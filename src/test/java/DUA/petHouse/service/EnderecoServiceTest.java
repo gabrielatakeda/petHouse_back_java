@@ -1,8 +1,8 @@
-package DUA.pet.petHouse.service;
+package DUA.petHouse.service;
 
-import DUA.pet.petHouse.model.EnderecoModel;
-import DUA.pet.petHouse.model.UsuarioModel;
-import DUA.pet.petHouse.repository.EnderecoRepository;
+import DUA.petHouse.model.EnderecoModel;
+import DUA.petHouse.model.UsuarioModel;
+import DUA.petHouse.repository.EnderecoRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

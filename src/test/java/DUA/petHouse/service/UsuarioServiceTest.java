@@ -1,8 +1,8 @@
-package DUA.pet.petHouse.service;
+package DUA.petHouse.service;
 
-import DUA.pet.petHouse.enums.Role;
-import DUA.pet.petHouse.model.UsuarioModel;
-import DUA.pet.petHouse.repository.UsuarioRepository;
+import DUA.petHouse.enums.Role;
+import DUA.petHouse.model.UsuarioModel;
+import DUA.petHouse.repository.UsuarioRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,9 @@ public class UsuarioServiceTest {
 
     @InjectMocks
     UsuarioService service;
+
+    @Mock
+    PasswordEncoder passwordEncoder;
 
     @Mock
     UsuarioRepository repository;
@@ -111,5 +115,45 @@ public class UsuarioServiceTest {
         service.delete(1L);
         verify(repository,times(1)).deleteById(1L);
     }
+
+//    @Test
+//    @DisplayName("Teste função login UsuarioService")
+//    void loginTest() {
+//        usuario.setSenha("senha_criptografada");
+//
+//        when(repository.findByEmailOrCpf("teste@exemplo.com", "teste@exemplo.com"))
+//                .thenReturn(Optional.of(usuario));
+//
+//        when(passwordEncoder.matches("senha_criptografada", usuario.getSenha())).thenReturn(true);
+//
+//        UsuarioModel resultado = service.login("teste@exemplo.com", "senha_criptografada");
+//
+//        Assertions.assertNotNull(resultado);
+//        Assertions.assertEquals(usuario.getEmail(), resultado.getEmail());
+//
+//        verify(repository, times(1))
+//                .findByEmailOrCpf("teste@exemplo.com", "teste@exemplo.com");
+//        verify(passwordEncoder, times(1))
+//                .matches("senha_criptografada", usuario.getSenha());
+//    }
+
+
+
+    @Test
+    @DisplayName("Deve lançar exceção se o usuário não for encontrado")
+    void loginUsuarioNaoEncontradoTest() {
+        when(repository.findByEmailOrCpf("naoexiste@teste.com", "naoexiste@teste.com"))
+                .thenReturn(Optional.empty());
+
+        RuntimeException ex = Assertions.assertThrows(RuntimeException.class,
+                () -> service.login("naoexiste@teste.com", "123456"));
+
+        Assertions.assertEquals("Usuário não encontrado", ex.getMessage());
+        verify(repository, times(1))
+                .findByEmailOrCpf("naoexiste@teste.com", "naoexiste@teste.com");
+        verify(passwordEncoder, never()).matches(anyString(), anyString());
+    }
+
+
 
 }
