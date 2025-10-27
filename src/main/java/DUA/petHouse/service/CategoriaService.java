@@ -62,21 +62,4 @@ public class CategoriaService {
                 .replaceAll("-+", "-");
     }
 
-
-
-//    public void deleteById(Long id) {
-//        var categoria = this.findById(id);
-//        categoriaRepository.delete(categoria);
-//    }
-
-//    public CategoriaModel update(Long id, CategoriaModel categoria) {
-//
-//        var obj = this.findById(id);
-//
-//        if(categoria.getNome() != null && !categoria.getNome().isBlank()){
-//            obj.setNome(categoria.getNome());
-//        }
-//        return  categoriaRepository.save(obj);
-//    }
-
 }

@@ -1,13 +1,8 @@
 package DUA.petHouse.service;
 
-<<<<<<< HEAD:src/main/java/DUA/petHouse/service/UsuarioService.java
 import DUA.petHouse.model.UsuarioModel;
 import DUA.petHouse.repository.UsuarioRepository;
-=======
-import DUA.pet.petHouse.model.UsuarioModel;
-import DUA.pet.petHouse.repository.UsuarioRepository;
 import jakarta.servlet.ServletOutputStream;
->>>>>>> origin/joaoM3:src/main/java/DUA/pet/petHouse/service/UsuarioService.java
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
