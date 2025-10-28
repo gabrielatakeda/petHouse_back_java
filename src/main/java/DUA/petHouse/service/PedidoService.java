@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,10 @@ public class PedidoService {
     public PedidoModel findById(Long id) {
         return pedidoRepository.findById(id)
                 .orElseThrow(RuntimeException::new);
+    }
+
+    public Optional<PedidoModel> findByCliente(Long clienteId) {
+        return pedidoRepository.findByClienteId(clienteId);
     }
 
 }

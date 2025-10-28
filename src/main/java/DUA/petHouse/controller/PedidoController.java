@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -44,6 +45,16 @@ PedidoController {
             var result = pedidoService.findById(id);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }catch (Exception ex){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/findByCliente/{clienteId}")
+    public ResponseEntity<Optional<PedidoModel>> findByCliente(@PathVariable Long clienteId) {
+        try {
+            var result = pedidoService.findByCliente(clienteId);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception ex) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }

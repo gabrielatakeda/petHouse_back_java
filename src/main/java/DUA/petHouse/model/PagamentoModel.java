@@ -28,10 +28,6 @@ public class PagamentoModel {
     @JsonBackReference
     private PedidoModel pedido;
 
-//    @NotNull
-//    @Column(nullable = false, precision = 10, scale = 2)
-//    private BigDecimal valor = BigDecimal.ZERO;
-
     @Enumerated(EnumType.STRING)
     private MetodoPagamento metodoPagamento;
 
@@ -40,9 +36,6 @@ public class PagamentoModel {
 
     @Column(nullable = false)
     private LocalDate dataPagamento;
-
-//    @Column(unique = true)
-//    private String transacaoId;
 
     @PrePersist
     public void prePersist() {
