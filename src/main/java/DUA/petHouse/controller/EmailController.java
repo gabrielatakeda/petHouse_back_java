@@ -14,9 +14,9 @@ public class EmailController {
     @GetMapping("/send-mail")
     public String enviarEmail() {
         emailService.enviarEmailSimples(
-                "destinatario@gmail.com",
-                "Teste de envio com Gmail",
-                "Olá! Este é um e-mail enviado via Spring Boot + Gmail."
+                "destinatario@gmail.com", //tenho que pensar como pegar o email do cara para colocar aqui
+                "Teste",
+                "teste"
         );
         return "E-mail enviado com sucesso!";
     }
