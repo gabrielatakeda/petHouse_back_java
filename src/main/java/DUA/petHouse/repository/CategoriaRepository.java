@@ -11,9 +11,9 @@ public interface CategoriaRepository extends JpaRepository<CategoriaModel, Long>
 
     Optional<CategoriaModel> findByNome(String nome);
     Optional<CategoriaModel> findBySlug(String slug);
-    // Repository
-    @Query("SELECT c FROM CategoriaModel c WHERE c.categoriaPai IS NULL")
-    List<CategoriaModel> findCategoriasPai();
+//    // Repository
+//    @Query("SELECT c FROM CategoriaModel c WHERE c.categoriaPai IS NULL")
+//    List<CategoriaModel> findCategoriasPai();
 
 
 }

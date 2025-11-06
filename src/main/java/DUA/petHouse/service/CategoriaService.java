@@ -25,41 +25,29 @@ public class CategoriaService {
         return categoriaRepository.findById(id);
     }
 
-    public List<CategoriaModel> findCategoriasPai() {
-        return categoriaRepository.findCategoriasPai();
-    }
-
-
     public List<CategoriaModel> findAll() {
         return categoriaRepository.findAll();
     }
 
     public CategoriaModel save(CategoriaModel categoria) {
-        // IDENTIFICAR SE CATEGORIA JA EXITE
-        // SE SIM LANÇAR EXCEPTION
-        if (categoria.getSlug() == null || categoria.getSlug().isBlank()) {
-            categoria.setSlug(gerarSlug(categoria.getNome()));
+        // Caso tenha subcategorias no JSON
+        if (categoria.getSubcategorias() != null && !categoria.getSubcategorias().isEmpty()) {
+            categoria.getSubcategorias().forEach(sub -> sub.setCategoriaPai(categoria));
         }
-
-        Optional<CategoriaModel> categoriaBD = categoriaRepository.findByNome(categoria.getNome());
-
         return categoriaRepository.save(categoria);
     }
 
-    public CategoriaModel criarSubcategoriaPorSlug(String slugPai, CategoriaModel subcategoria) {
-        CategoriaModel categoriaPai = categoriaRepository.findBySlug(slugPai)
-                .orElseThrow(() -> new RuntimeException("Categoria pai não encontrada"));
-        subcategoria.setCategoriaPai(categoriaPai);
+    // Salvar subcategoria usando slug do pai
+    public CategoriaModel saveSubcategoriaBySlug(String slugPai, CategoriaModel subcategoria) {
+        CategoriaModel pai = categoriaRepository.findBySlug(slugPai)
+                .orElseThrow(() -> new RuntimeException("Categoria pai não encontrada pelo slug: " + slugPai));
+        subcategoria.setCategoriaPai(pai);
         return categoriaRepository.save(subcategoria);
     }
 
-    private String gerarSlug(String nome) {
-        String normalizado = Normalizer.normalize(nome, Normalizer.Form.NFD)
-                .replaceAll("[^\\p{ASCII}]", "");
-        return normalizado.toLowerCase()
-                .replaceAll("[^a-z0-9\\s-]", "")
-                .replaceAll("\\s+", "-")
-                .replaceAll("-+", "-");
+    public CategoriaModel findBySlug(String slug) {
+        return categoriaRepository.findBySlug(slug)
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
     }
 
-}
+}                                                                                                               

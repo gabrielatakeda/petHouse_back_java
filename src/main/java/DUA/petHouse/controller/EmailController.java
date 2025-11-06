@@ -11,5 +11,14 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
+    @GetMapping("/send-mail")
+    public String enviarEmail() {
+        emailService.enviarEmailSimples(
+                "destinatario@gmail.com",
+                "Teste de envio com Gmail",
+                "Olá! Este é um e-mail enviado via Spring Boot + Gmail."
+        );
+        return "E-mail enviado com sucesso!";
+    }
 
 }

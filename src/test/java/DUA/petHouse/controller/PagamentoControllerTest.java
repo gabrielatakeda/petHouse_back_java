@@ -1,6 +1,7 @@
 package DUA.petHouse.controller;
 
 import DUA.petHouse.enums.MetodoPagamento;
+import DUA.petHouse.enums.Role;
 import DUA.petHouse.enums.StatusPagamento;
 import DUA.petHouse.enums.StatusPedido;
 import DUA.petHouse.model.EnderecoModel;
@@ -64,6 +65,7 @@ public class PagamentoControllerTest {
         usuario.setUser("mariaUser");
         usuario.setCpf("98765432100");
         usuario.setDataNascimento(LocalDate.of(1995, 5, 5));
+        usuario.setRole(Role.USER);
         usuario = usuarioRepository.save(usuario);
 
         //Criar endereço e salvar
