@@ -1,5 +1,6 @@
 package DUA.petHouse.service;
 
+import DUA.petHouse.model.Email;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -14,21 +15,18 @@ import java.util.Properties;
 @Service
 public class EmailService {
 
-    @Value("${mail.username}")
-    private String usuario;
+    private final JavaMailSender mailSender;
 
-    @Value("${mail.password}")
-    private String senha;
+    public EmailService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
 
-    @Autowired
-    private JavaMailSender mailSender;
-
-    public void enviarEmailSimples(String para, String assunto, String texto) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(para);
-        message.setSubject(assunto);
-        message.setText(texto);
+    public void enviarEmailSimples(Email email) {
+        var message = new SimpleMailMessage();
         message.setFrom("pethouseteste@gmail.com");
+        message.setTo(email.para());
+        message.setSubject(email.assunto());
+        message.setText(email.texto());
         mailSender.send(message);
     }
 }
