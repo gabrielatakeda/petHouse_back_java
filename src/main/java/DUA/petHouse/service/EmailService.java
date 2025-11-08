@@ -23,7 +23,7 @@ public class EmailService {
 
     public void enviarEmailSimples(Email email) {
         var message = new SimpleMailMessage();
-        message.setFrom("pethouseteste@gmail.com");
+        message.setFrom("pethouse@gmail.com");
         message.setTo(email.para());
         message.setSubject(email.assunto());
         message.setText(email.texto());
