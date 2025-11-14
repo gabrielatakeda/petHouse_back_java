@@ -5,6 +5,7 @@ import DUA.pet.petHouse.repository.UsuarioRepository;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +28,7 @@ public class UsuarioService {
         return usuarioRepository.save(usuarioModel);
     }
 
+    @PreAuthorize("hasRole(USER)")
     public UsuarioModel findById(Long id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(RuntimeException::new);
