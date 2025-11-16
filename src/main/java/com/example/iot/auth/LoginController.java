@@ -18,7 +18,7 @@ public class LoginController {
 
     @PostMapping //Requisição POST
     public ResponseEntity<String> logar(@RequestBody Login login){ //Recebe um objeto login vindo pelo RequestBody e retorna uma resposta HTTP
-        try{
+        try{ //A String retornada é o token
             return ResponseEntity.ok(loginService.logar(login)); //Retorna token e status 200
         }catch (AuthenticationException ex){ //Se o login falhar
             System.out.println(ex.getMessage());
