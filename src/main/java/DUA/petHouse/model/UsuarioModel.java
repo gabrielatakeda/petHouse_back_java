@@ -26,6 +26,10 @@ public class UsuarioModel {
     private Long id;
 
     @NotBlank(message = "Campo obrigatorio")
+    @Pattern(
+            regexp = "^[A-Za-zÀ-ÿ ]+$",
+            message = "O nome deve conter apenas letras"
+    )
     private String nome;
 
     @Email(message = "Formato do email invalido")
