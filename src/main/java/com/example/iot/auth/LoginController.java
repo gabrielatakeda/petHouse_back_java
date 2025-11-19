@@ -1,4 +1,4 @@
-package com.example.iot.auth;
+/*package com.example.iot.auth;
 
 import org.springframework.beans.factory.annotation.Autowired; //Import para injeção de dependência
 import org.springframework.http.HttpStatus;
@@ -28,4 +28,4 @@ public class LoginController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST); //Retorna status 400
         }
     }
-}
+}*/

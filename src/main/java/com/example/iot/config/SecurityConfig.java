@@ -1,4 +1,4 @@
-package com.example.iot.config;
+/*package com.example.iot.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,8 +33,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated() //Todas as outras rotas exigem token válido ou retorna 401
                 )
                 .authenticationProvider(authenticationProvider) //Provider personalizado de autenticação
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) //Spring recebe uma requisição, se houver token ele valida, autentica o usuário e libera acesso
+                .addFilterBefore(git jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) //Spring recebe uma requisição, se houver token ele valida, autentica o usuário e libera acesso
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //Configura política de sessão, STATELESS não guarda sessão, não usa cookie e a cada requisição deve ter seu próprio token
                 .build(); //Finaliza toda a configuração de segurança e constrói o objeto da classe
     }
-}
+}*/

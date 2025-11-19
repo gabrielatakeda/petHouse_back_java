@@ -43,14 +43,27 @@ public class ProdutoService {
         produtoRepository.delete(produto);
     }
 
-    public ProdutoModel update(Long id, ProdutoModel novoProduto){
-        var produto = this.findById(id);
-        if(novoProduto.getPrecoVenda() != null){
-            produto.setPrecoVenda(novoProduto.getPrecoVenda());
+    @Transactional
+    public ProdutoModel update(Long id, ProdutoModel novoProduto, BucketFile bucketFile) {
+        ProdutoModel produto = this.findById(id);
+
+        // Atualiza todos os campos
+        produto.setNome(novoProduto.getNome());
+        produto.setDescricao(novoProduto.getDescricao());
+        produto.setPrecoVenda(novoProduto.getPrecoVenda());
+        produto.setQuantidade(novoProduto.getQuantidade());
+
+        // Atualiza categoria
+        if (novoProduto.getCategoria() != null) {
+            produto.setCategoria(novoProduto.getCategoria());
         }
-        if(novoProduto.getQuantidade() != null){
-            produto.setQuantidade(novoProduto.getQuantidade());
+
+        // Só atualiza a imagem se vier um arquivo novo
+        if (bucketFile != null) {
+            String novaUrl = bucket.upload(bucketFile);
+            produto.setUrlFoto(novaUrl);
         }
+        // Se não vier arquivo → mantém a imagem antiga
 
         return produtoRepository.save(produto);
     }

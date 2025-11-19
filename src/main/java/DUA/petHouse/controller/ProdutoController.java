@@ -33,7 +33,6 @@ public class ProdutoController {
         }
     }
 
-
     @GetMapping("/findById/{id}")
     public ResponseEntity<ProdutoModel> findById(@PathVariable Long id) {
         try {
@@ -55,27 +54,21 @@ public class ProdutoController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProdutoModel> save (
-            //Espera uma parte chamada "produto" contendo um JSON (o produto), o Spring converte para ProdutoModel
             @RequestPart("produto") ProdutoModel produto,
-            //Espera a parte chamada "file" com o arquivo enviado. É essa parte que será enviada ao MinIO
             @RequestPart("file") MultipartFile file) {
 
-        //Abre um fluxo de leitura do arquivo enviado, permite ler os bytes para enviar ao MinIo
         try (InputStream is = file.getInputStream() ){
 
-            //Pega o tipo do conteúdo do arquivo e transforma em um objeto MediaType
             MediaType type = MediaType.parseMediaType(file.getContentType());
 
-            /*Cria um objeto de transporte com os dados do arquivo (nome, tamanho, conteúdo, tipo),
-            esse objeto é passado para o ProdutoService, que vai fazer o upload para o MinIO usando essas informações, depois do upload, o service gera uma url de acesso ao arquivo*/
             var bucketFile = new BucketFile(file.getName(), is, type, file.getSize());
 
             ProdutoModel saved = produtoService.save(produto, bucketFile);
 
             return new ResponseEntity<>(saved, HttpStatus.CREATED);
 
-        } catch (Exception ex){ //Captura qualquer exceção que possa ocorrer dentro do try acima
-            throw new RuntimeException(ex); //A exceção não é mais silenciosa, ela vai “subir” para o Spring, que vai transformá-la em resposta HTTP 500
+        } catch (Exception ex){
+            throw new RuntimeException(ex);
         }
     }
 
@@ -89,16 +82,27 @@ public class ProdutoController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<ProdutoModel> update(@PathVariable Long id, @RequestBody ProdutoModel produto){
+    @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProdutoModel> update(
+            @PathVariable Long id,
+            @RequestPart("produto") ProdutoModel produto,
+            @RequestPart(value = "file", required = false) MultipartFile file) {
+
         try {
-            var result = produtoService.update(id, produto);
-            if(result == null){
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            BucketFile bucketFile = null;
+            if (file != null && !file.isEmpty()) {
+                try (InputStream is = file.getInputStream()) {
+                    MediaType type = MediaType.parseMediaType(file.getContentType());
+                    bucketFile = new BucketFile(file.getOriginalFilename(), is, type, file.getSize());
+                }
             }
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        } catch (Exception ex){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
+            ProdutoModel atualizado = produtoService.update(id, produto, bucketFile);
+            return ResponseEntity.ok(atualizado);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
     }
 }
