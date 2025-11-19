@@ -1,8 +1,7 @@
-package com.example.iot.auth;
+package DUA.petHouse.auth;
 
 import org.springframework.beans.factory.annotation.Autowired; //Import para injeção de dependência
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

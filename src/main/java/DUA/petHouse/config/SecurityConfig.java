@@ -1,4 +1,4 @@
-package com.example.iot.config;
+package DUA.petHouse.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,8 +28,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) //Tipo de ataque onde alguém tenta fazer o usuário enviar requisições sem querer, estamos usando o JWT
                 .cors(AbstractHttpConfigurer::disable) //Define quais frontends podem ser acessados pela API
                 .authorizeHttpRequests(requests -> requests //Aqui é quem pode acessar quais endpoisnt, define regras de permissão
-                        .requestMatchers("/api/login").permitAll() //Essas rotas não precisam de login, são públicas
-                        .requestMatchers("/api/register").permitAll()
+                        .requestMatchers("/api/login").permitAll() //Essa rota não precisa de login, é pública
                         .anyRequest().authenticated() //Todas as outras rotas exigem token válido ou retorna 401
                 )
                 .authenticationProvider(authenticationProvider) //Provider personalizado de autenticação

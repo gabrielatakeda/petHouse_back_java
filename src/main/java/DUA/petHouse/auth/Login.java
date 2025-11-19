@@ -1,4 +1,4 @@
-package com.example.iot.auth;
+package DUA.petHouse.auth;
 
 import lombok.Getter;
 import lombok.Setter;
