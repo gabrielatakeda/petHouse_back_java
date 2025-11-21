@@ -223,7 +223,7 @@ public class UsuarioControllerTest {
         credentials.put("usuarioLogin", "usuarioInvalido");
         credentials.put("senha", "senhaErrada");
 
-        ResponseEntity<UsuarioModel> response = controllerToTest.login(credentials);
+        ResponseEntity<String> response = controllerToTest.login(credentials);
 
         Assertions.assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         Assertions.assertNull(response.getBody());

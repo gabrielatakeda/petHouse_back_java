@@ -32,9 +32,10 @@ public class SecurityManager {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> usuarioRepository.findByUser(username)
+        return login -> usuarioRepository.findByEmailOrCpf(login, login)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
     }
+
 
 
 
