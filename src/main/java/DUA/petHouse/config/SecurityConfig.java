@@ -1,8 +1,11 @@
 package DUA.petHouse.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,30 +13,51 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
 
 @Configuration //Classe se configuração do Spring, vai ler esse arquivo ao iniciar no servidor
 @EnableWebSecurity //Ativa o Spring Security, sem isso, não aplica nenhuma regra de segurança
 public class SecurityConfig {
 
-    @Autowired //Injeta as dependências automaticamente
-    private JwtAuthenticationFilter jwtAuthenticationFilter; //Filtro que ê o token e valida o usuário
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+            http
+                    .csrf(AbstractHttpConfigurer::disable)
+                    .cors(AbstractHttpConfigurer::disable)
+                    .authorizeHttpRequests((requests) -> requests
+                            .requestMatchers("/api/login").permitAll()
+                            .requestMatchers("/api/register").permitAll()
+                            .anyRequest().authenticated())
+                    .authenticationProvider(authenticationProvider)
+                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                    .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-    @Autowired
-    private AuthenticationProvider authenticationProvider; //Autentica o usuário
+            return http.build();
+        }
 
-    @Bean //Devolve a cadeia de filtros de segurança do Spring Security, executa esses filtros em toda requisição HTTP
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { //Objeto que é a base de toda configuração de segurança da API, o metodo pode lançar exceções
+        @Autowired
+        private JwtAuthenticationFilter jwtAuthFilter;
 
-        return http //É um objeto do tipo HttpSecurity, retorna o objeto com todas as configurações aplicadas
-                .csrf(AbstractHttpConfigurer::disable) //Tipo de ataque onde alguém tenta fazer o usuário enviar requisições sem querer, estamos usando o JWT
-                .cors(AbstractHttpConfigurer::disable) //Define quais frontends podem ser acessados pela API
-                .authorizeHttpRequests(requests -> requests //Aqui é quem pode acessar quais endpoisnt, define regras de permissão
-                        .requestMatchers("/api/login").permitAll() //Essa rota não precisa de login, é pública
-                        .anyRequest().authenticated() //Todas as outras rotas exigem token válido ou retorna 401
-                )
-                .authenticationProvider(authenticationProvider) //Provider personalizado de autenticação
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) //Spring recebe uma requisição, se houver token ele valida, autentica o usuário e libera acesso
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //Configura política de sessão, STATELESS não guarda sessão, não usa cookie e a cada requisição deve ter seu próprio token
-                .build(); //Finaliza toda a configuração de segurança e constrói o objeto da classe
-    }
+        @Autowired
+        private AuthenticationProvider authenticationProvider;
+
+
+        @Bean
+        public FilterRegistrationBean<CorsFilter> corsFilter() {
+            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowCredentials(true);
+            config.setAllowedOriginPatterns(Arrays.asList("*"));
+            config.setAllowedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION,HttpHeaders.CONTENT_TYPE,HttpHeaders.ACCEPT));
+            config.setAllowedMethods(Arrays.asList(HttpMethod.GET.name(),HttpMethod.POST.name(),HttpMethod.PUT.name(),HttpMethod.DELETE.name()));
+            config.setMaxAge(3600L);
+            source.registerCorsConfiguration("/**", config);
+            FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<CorsFilter>(new CorsFilter(source));
+            bean.setOrder(-102);
+            return bean;
+        }
 }
