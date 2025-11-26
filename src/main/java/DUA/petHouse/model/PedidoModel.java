@@ -2,6 +2,7 @@ package DUA.petHouse.model;
 
 import DUA.petHouse.enums.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -44,6 +45,7 @@ public class PedidoModel {
             joinColumns = @JoinColumn(name = "pedido_id"),
             inverseJoinColumns = @JoinColumn(name = "produto_id")
     )
+    @JsonIgnore
     private Set<ProdutoModel> produtos = new HashSet<>();
 
     @ManyToOne

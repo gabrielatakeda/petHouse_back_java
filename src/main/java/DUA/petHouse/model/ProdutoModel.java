@@ -1,5 +1,6 @@
 package DUA.petHouse.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -35,8 +36,12 @@ public class ProdutoModel {
     private String urlFoto;
 
     @ManyToMany(mappedBy = "produtos")
+    @JsonIgnore
     private Set<PedidoModel> itensPedidos = new HashSet<>();
 
     @ManyToOne
     private CategoriaModel categoria;
+
+    @Column(name = "subcategoria_nome")
+    private String subcategoriaNome;
 }
