@@ -1,9 +1,10 @@
 package DUA.petHouse.integration;
 
-import DUA.petHouse.model.UsuarioModel;
-import DUA.petHouse.model.EnderecoModel;
-import DUA.petHouse.repository.UsuarioRepository;
-import DUA.petHouse.repository.EnderecoRepository;
+import DUA.pet.petHouse.enums.Role;
+import DUA.pet.petHouse.model.UsuarioModel;
+import DUA.pet.petHouse.model.EnderecoModel;
+import DUA.pet.petHouse.repository.UsuarioRepository;
+import DUA.pet.petHouse.repository.EnderecoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +14,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -43,17 +47,17 @@ public class IntegrationTest {
         usuario.setNome("Maria Souza");
         usuario.setEmail("maria@example.com");
         usuario.setUser("mariaUser");
-        usuario.setSenha("123456");
+        usuario.setSenha("Jl99766590@");
         usuario.setCpf("12345678900");
-        usuario.setRole("CLIENTE");
-        usuario.setDataNascimento("2000-01-01");
+        usuario.setRole(Role.ADMIN);
+        usuario.setDataNascimento(LocalDate.now());
 
         endereco = new EnderecoModel();
         endereco.setLogradouro("Rua das Flores");
-        endereco.setNumero("100");
+        endereco.setNumero(100);
         endereco.setCidade("São Paulo");
         endereco.setEstado("SP");
-        endereco.setCep("01010-000");
+        endereco.setCep("85857600");
         endereco.setBairro("Centro");
     }
 
@@ -107,7 +111,6 @@ public class IntegrationTest {
     @Test
     @DisplayName("Deve autenticar usuário com senha criptografada")
     void deveLogarUsuario() throws Exception {
-        // Cria e salva usuário
         String usuarioJson = mapper.writeValueAsString(usuario);
         mockMvc.perform(post("/usuarios/save")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -118,7 +121,6 @@ public class IntegrationTest {
         String loginJson = """
                     {
                       "usuarioLogin": "maria@example.com",
-                      "senha": "123456"
                     }
                 """;
 
@@ -142,4 +144,3 @@ public class IntegrationTest {
                 .andExpect(status().isNoContent());
     }
 }
-

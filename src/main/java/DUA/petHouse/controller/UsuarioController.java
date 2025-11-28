@@ -75,15 +75,18 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UsuarioModel> login(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> credentials) {
         String usuarioLogin = credentials.get("usuarioLogin");
         String senha = credentials.get("senha");
 
         try {
-            UsuarioModel usuario = usuarioService.login(usuarioLogin, senha);
-            return new ResponseEntity<>(usuario, HttpStatus.OK);
+            String token = usuarioService.login(usuarioLogin, senha);
+
+            return ResponseEntity.ok(Map.of("token", token));
+
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", e.getMessage()));
         }
     }
 

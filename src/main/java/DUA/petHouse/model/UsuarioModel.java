@@ -10,8 +10,12 @@ import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -19,7 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "usuario_tb")
-public class UsuarioModel {
+public class UsuarioModel implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,8 +61,7 @@ public class UsuarioModel {
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 
-//    @Past(message = "Data de nascimento deve ser no passado")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+
     private LocalDate dataNascimento;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
@@ -67,6 +70,27 @@ public class UsuarioModel {
 
     @PrePersist
     private void setUp(){
-        this.role = Role.USER;
+        if (this.role == null) {
+            this.role = Role.USER;
+        }
     }
+
+    //USER DETAILS
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.user;
+    }
+
+
 }

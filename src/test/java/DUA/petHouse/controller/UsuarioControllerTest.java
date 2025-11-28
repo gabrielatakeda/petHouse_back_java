@@ -18,7 +18,9 @@ import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -32,6 +34,8 @@ public class UsuarioControllerTest {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    UsuarioController usuarioController = new UsuarioController(usuarioService);
 
     @Autowired
     PagamentoRepository pagamentoRepository;
@@ -180,6 +184,48 @@ public class UsuarioControllerTest {
         ResponseEntity<List<UsuarioModel>> response = controllerToTest.findAll();
 
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertNull(response.getBody());
+    }
+
+//    @Test
+//    @DisplayName("login - sucesso")
+//    void loginSucesso() {
+//
+//        UsuarioModel usuarioMock = new UsuarioModel();
+//        usuarioMock.setId(1L);
+//        usuarioMock.setNome("Maria");
+//        usuarioMock.setUser("mariauser");
+//        usuarioMock.setEmail("maria@test.com");
+//
+//        when(usuarioService.login("mariauser", "Senha@123")).thenReturn(usuarioMock);
+//
+//        Map<String, String> credentials = new HashMap<>();
+//        credentials.put("usuarioLogin", "mariauser");
+//        credentials.put("senha", "Senha@123");
+//
+//        ResponseEntity<UsuarioModel> response = usuarioController.login(credentials);
+//
+//        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+//        Assertions.assertNotNull(response.getBody());
+//        Assertions.assertEquals("Maria", response.getBody().getNome());
+//        Assertions.assertEquals("mariauser", response.getBody().getUser());
+//    }
+
+    @Test
+    @DisplayName("login - falha (credenciais inválidas)")
+    void loginFalha() {
+        var controllerToTest = new UsuarioController(usuarioService);
+
+        when(usuarioService.login("usuarioInvalido", "senhaErrada"))
+                .thenThrow(new RuntimeException("Usuário ou senha inválidos"));
+
+        Map<String, String> credentials = new HashMap<>();
+        credentials.put("usuarioLogin", "usuarioInvalido");
+        credentials.put("senha", "senhaErrada");
+
+        ResponseEntity<String> response = controllerToTest.login(credentials);
+
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         Assertions.assertNull(response.getBody());
     }
 

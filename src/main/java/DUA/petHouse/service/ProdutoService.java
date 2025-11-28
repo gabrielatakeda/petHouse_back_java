@@ -6,6 +6,7 @@ import DUA.petHouse.model.ProdutoModel;
 import DUA.petHouse.repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ public class ProdutoService {
         return produtoRepository.findAll();
     }
 
+    @PreAuthorize("hasRole(ADMIN)")
     @Transactional //Garante que todas as operações do metodo sejam executadas juntas
     public ProdutoModel save(ProdutoModel produto, BucketFile bucketFile) { //Metodo que salva um produto e faz upload de uma foto/arquivo associado
         String url = bucket.upload(bucketFile); //Faz upload do arquivo via BucketService e recebe a URL pública/armazenada do arquivo
@@ -38,24 +40,20 @@ public class ProdutoService {
         return produtoRepository.save(produto); //Persiste o produto no banco (insere ou atualiza) e retorna a entidade salva
     }
 
+    @PreAuthorize("hasRole(ADMIN)")
     public void deleteById(Long id){
         var produto = this.findById(id);
         produtoRepository.delete(produto);
     }
 
-    @Transactional
-    public ProdutoModel update(Long id, ProdutoModel novoProduto, BucketFile bucketFile) {
-        ProdutoModel produto = this.findById(id);
-
-        // Atualiza todos os campos
-        produto.setNome(novoProduto.getNome());
-        produto.setDescricao(novoProduto.getDescricao());
-        produto.setPrecoVenda(novoProduto.getPrecoVenda());
-        produto.setQuantidade(novoProduto.getQuantidade());
-
-        // Atualiza categoria
-        if (novoProduto.getCategoria() != null) {
-            produto.setCategoria(novoProduto.getCategoria());
+    @PreAuthorize("hasRole(ADMIN)")
+    public ProdutoModel update(Long id, ProdutoModel novoProduto){
+        var produto = this.findById(id);
+        if(novoProduto.getPrecoVenda() != null){
+            produto.setPrecoVenda(novoProduto.getPrecoVenda());
+        }
+        if(novoProduto.getQuantidade() != null){
+            produto.setQuantidade(novoProduto.getQuantidade());
         }
 
         // Só atualiza a imagem se vier um arquivo novo
