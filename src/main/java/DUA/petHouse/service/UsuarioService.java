@@ -1,5 +1,6 @@
 package DUA.petHouse.service;
 
+import DUA.petHouse.configuration.JwtServiceGenerator;
 import DUA.petHouse.model.UsuarioModel;
 import DUA.petHouse.repository.UsuarioRepository;
 import jakarta.servlet.ServletOutputStream;
@@ -48,7 +49,6 @@ public class UsuarioService {
         usuarioUpdate.setNome(usuarioModel.getNome());
         usuarioUpdate.setUser(usuarioModel.getUser());
         usuarioUpdate.setCpf(usuarioModel.getCpf());
-        usuarioUpdate.setDataNascimento(usuarioModel.getDataNascimento());
 
 //      verifica se a senha do usuario foi alterada, caso contrario, o sitema faria uma criptografia
 //      em cima de uma senha ja criptografada

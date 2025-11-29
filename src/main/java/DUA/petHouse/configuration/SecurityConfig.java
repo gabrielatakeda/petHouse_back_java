@@ -25,7 +25,6 @@ public class SecurityConfig {
             AuthenticationProvider authenticationProvider,
             JwtAuthenticationFilter jwtAuthFilter
     ) throws Exception {
-
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> {}) // usa o CORS padrão do Spring

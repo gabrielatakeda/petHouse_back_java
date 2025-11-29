@@ -1,10 +1,10 @@
 package DUA.petHouse.integration;
 
-import DUA.pet.petHouse.enums.Role;
-import DUA.pet.petHouse.model.UsuarioModel;
-import DUA.pet.petHouse.model.EnderecoModel;
-import DUA.pet.petHouse.repository.UsuarioRepository;
-import DUA.pet.petHouse.repository.EnderecoRepository;
+import DUA.petHouse.enums.Role;
+import DUA.petHouse.model.UsuarioModel;
+import DUA.petHouse.model.EnderecoModel;
+import DUA.petHouse.repository.UsuarioRepository;
+import DUA.petHouse.repository.EnderecoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-package DUA.pet.petHouse.configuration;
+package DUA.petHouse.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

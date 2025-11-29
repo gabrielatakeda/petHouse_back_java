@@ -47,7 +47,7 @@ public class ProdutoService {
     }
 
     @PreAuthorize("hasRole(ADMIN)")
-    public ProdutoModel update(Long id, ProdutoModel novoProduto){
+    public ProdutoModel update(Long id, ProdutoModel novoProduto, BucketFile bucketFile){
         var produto = this.findById(id);
         if(novoProduto.getPrecoVenda() != null){
             produto.setPrecoVenda(novoProduto.getPrecoVenda());

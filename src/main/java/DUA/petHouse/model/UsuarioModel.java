@@ -61,9 +61,6 @@ public class UsuarioModel implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 
-
-    private LocalDate dataNascimento;
-
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<EnderecoModel> enderecos;
