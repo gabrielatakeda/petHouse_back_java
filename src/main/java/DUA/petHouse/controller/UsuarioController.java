@@ -76,19 +76,18 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> credentials) {
-        String usuarioLogin = credentials.get("usuarioLogin");
-        String senha = credentials.get("senha");
+        String email = credentials.get("email");  // <--- aqui
+        String password = credentials.get("senha");
 
         try {
-            String token = usuarioService.login(usuarioLogin, senha);
-
+            String token = usuarioService.login(email, password);
             return ResponseEntity.ok(Map.of("token", token));
-
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", e.getMessage()));
         }
     }
+
 
 
 }
