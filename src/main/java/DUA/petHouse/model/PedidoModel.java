@@ -2,17 +2,15 @@ package DUA.petHouse.model;
 
 import DUA.petHouse.enums.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -45,8 +43,7 @@ public class PedidoModel {
             joinColumns = @JoinColumn(name = "pedido_id"),
             inverseJoinColumns = @JoinColumn(name = "produto_id")
     )
-    @JsonIgnore
-    private Set<ProdutoModel> produtos = new HashSet<>();
+    private List<ProdutoModel> produtos = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "endereco_id")
@@ -55,5 +52,7 @@ public class PedidoModel {
     @Enumerated(EnumType.STRING)
     private StatusPedido statusPedido;
 
-
+    // campo transitório para guardar a quantidade escolhida pelo cliente
+    @Transient
+    private Integer quantidadeSelecionada;
 }

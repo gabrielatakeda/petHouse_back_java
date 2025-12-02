@@ -44,4 +44,7 @@ public class ProdutoModel {
 
     @Column(name = "subcategoria_nome")
     private String subcategoriaNome;
+
+    @Transient
+    private Integer quantidadeSelecionada;
 }

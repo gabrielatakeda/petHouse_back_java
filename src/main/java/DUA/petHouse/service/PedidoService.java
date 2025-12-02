@@ -31,4 +31,23 @@ public class PedidoService {
         return pedidoRepository.findByClienteId(clienteId);
     }
 
+    // NOVO MÉTODO: remover produto de um pedido
+    public PedidoModel removerProduto(Long pedidoId, Long produtoId) {
+        PedidoModel pedido = pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+
+        // remove o produto da lista pelo id
+        pedido.getProdutos().removeIf(p -> p.getId().equals(produtoId));
+
+        // recalcula o total
+        double novoTotal = pedido.getProdutos().stream()
+                .mapToDouble(p -> (p.getPrecoVenda() != null ? p.getPrecoVenda() : 0.0) *
+                        (p.getQuantidadeSelecionada() != null ? p.getQuantidadeSelecionada() : 1))
+                .sum();
+        pedido.setTotal(novoTotal);
+
+        return pedidoRepository.save(pedido);
+    }
+
+
 }
